@@ -1,10 +1,12 @@
 import 'package:dartz/dartz.dart';
+import '../../../../core/usecases/usecase.dart';
+import 'package:equatable/equatable.dart';
 import 'detail_product.dart';
 import '../../../../core/error/failure.dart';
 import '../entities/product.dart';
 import '../repositories/product_repository.dart';
 
-class DeleteProduct {
+class DeleteProduct implements Usecase<Unit, DeleteParams> {
   final ProductRepository repository;
 
   DeleteProduct({required this.repository});
@@ -13,8 +15,12 @@ class DeleteProduct {
   }
 }
 
-class DeleteParams {
+class DeleteParams extends Equatable {
   final int id;
 
   DeleteParams({required this.id});
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [id];
 }
