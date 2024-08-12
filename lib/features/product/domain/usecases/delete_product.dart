@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
-import '../../../../core/usecases/usecase.dart';
 import 'package:equatable/equatable.dart';
-import 'detail_product.dart';
+
 import '../../../../core/error/failure.dart';
-import '../entities/product.dart';
+import '../../../../core/usecases/usecase.dart';
 import '../repositories/product_repository.dart';
 
 class DeleteProduct implements Usecase<Unit, DeleteParams> {

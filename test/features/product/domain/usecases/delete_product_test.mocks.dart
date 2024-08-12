@@ -7,9 +7,9 @@ import 'dart:async' as _i4;
 
 import 'package:dartz/dartz.dart' as _i2;
 import 'package:ecommerce_app/core/error/failure.dart' as _i5;
-import 'package:ecommerce_app/features/number_trivia/domain/entities/product.dart'
+import 'package:ecommerce_app/features/product/domain/entities/product.dart'
     as _i6;
-import 'package:ecommerce_app/features/number_trivia/domain/repositories/product_repository.dart'
+import 'package:ecommerce_app/features/product/domain/repositories/product_repository.dart'
     as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
