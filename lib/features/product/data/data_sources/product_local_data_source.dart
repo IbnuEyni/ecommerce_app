@@ -6,5 +6,5 @@ abstract class ProductLocalDataSource {
   ///
   /// Throws [cacheException] if no cached data is present.
   Future<ProductModel> getLastProduct();
-  Future<void> cacheProduct(ProductModel, productcache);
+  Future<void> cacheProduct(ProductModel);
 }
