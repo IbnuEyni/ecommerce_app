@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/features/product/data/models/product_model.dart';
 import '../../../../core/error/exception.dart';
-import '../../../../core/platform/network_info.dart';
+import '../../../../core/network/network_info.dart';
 import '../data_sources/product_local_data_source.dart';
 import '../data_sources/product_remote_data_source.dart';
 import '../../domain/entities/product.dart';

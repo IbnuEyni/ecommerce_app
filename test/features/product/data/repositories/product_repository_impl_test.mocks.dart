@@ -5,7 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i4;
 
-import 'package:ecommerce_app/core/platform/network_info.dart' as _i6;
+import 'package:ecommerce_app/core/network/network_info.dart' as _i6;
 import 'package:ecommerce_app/features/product/data/data_sources/product_local_data_source.dart'
     as _i5;
 import 'package:ecommerce_app/features/product/data/data_sources/product_remote_data_source.dart'
