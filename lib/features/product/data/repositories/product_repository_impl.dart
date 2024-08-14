@@ -62,8 +62,7 @@ class ProductRepositoryImpl implements ProductRepository {
   Future<Either<Failure, Unit>> deleteProduct(int id) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteProduct = await remoteDataSource.deleteProduct(id);
-        localDataSource.cacheProduct(remoteProduct);
+        await remoteDataSource.deleteProduct(id);
         return const Right(unit);
       } on ServerException {
         return Left(ServerFailure());

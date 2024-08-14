@@ -241,12 +241,10 @@ void main() {
 
   group('deleteProduct', () {
     final tid = 1;
-    final tProductModel =
-        ProductModel.fromJson(json.decode(fixture('product.json')));
 
     void setUpDeleteMockHttpClientSuccess200() {
       when(mockHttpClient.delete(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(fixture('product.json'), 200));
+          .thenAnswer((_) async => http.Response('Deleted Successfully', 200));
     }
 
     void setDeleteUpMockHttpClientFailure404() {
@@ -270,9 +268,9 @@ void main() {
       //arrange
       setUpDeleteMockHttpClientSuccess200();
       //act
-      final result = await dataSource.deleteProduct(tid);
+      final call = dataSource.deleteProduct(tid);
       // assert
-      expect(result, equals(tProductModel));
+      expect(call, equals(completes));
     });
 
     test(

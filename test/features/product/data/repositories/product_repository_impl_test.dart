@@ -353,78 +353,68 @@ void main() {
     // We'll use these three variables throughout all the tests
     final tid = 1;
 
-    final tProductModel = ProductModel(
-      id: 1,
-      name: 'name',
-      description: 'description',
-      imageUrl: 'imageUrl',
-      price: 1,
-    );
-
-    final Product tProduct = tProductModel;
     test('should check if the device is online', () async {
-      //arrange
+      // Arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(mockRemoteDataSource.deleteProduct(tid))
-          .thenAnswer((_) async => tProductModel);
-      when(mockLocalDataSource.getLastProduct())
-          .thenAnswer((_) async => tProductModel);
-      // //act
+          .thenAnswer((_) async => unit);
+      when(mockRemoteDataSource.deleteProduct(tid))
+          .thenThrow(ServerException());
+
+      // Act
       await repository.deleteProduct(tid);
-      // //assert
+
+      // Assert
       verify(mockNetworkInfo.isConnected);
     });
-
     runTestsOnline(() {
       test(
-        'should return remote data when the call for remote data is succesful',
+        'should return Right(unit) when the call to remote data source is successful',
         () async {
-          //arrange
+          // Arrange
           when(mockRemoteDataSource.deleteProduct(tid))
-              .thenAnswer((_) async => tProductModel);
+              .thenAnswer((_) async => unit);
 
-          //act
+          // Act
           final result = await repository.deleteProduct(tid);
 
-          //assert
-          verify(
-            mockRemoteDataSource.deleteProduct(tid),
-          );
-          expect(result, equals(Right(unit)));
+          // Assert
+          verify(mockRemoteDataSource.deleteProduct(tid));
+          expect(result, equals(const Right(unit)));
         },
       );
+
       test(
-        'should cache data when the call for remote data is succesful',
+        'should return ServerFailure when the call to remote data source is unsuccessful',
         () async {
-          //arrange
+          // Arrange
           when(mockRemoteDataSource.deleteProduct(tid))
-              .thenAnswer((_) async => tProductModel);
+              .thenThrow(ServerException());
 
-          //act
-          await repository.deleteProduct(tid);
+          // Act
+          final result = await repository.deleteProduct(tid);
 
-          //assert
-          verify(
-            mockRemoteDataSource.deleteProduct(tid),
-          );
-          verify(mockLocalDataSource.cacheProduct(tProductModel));
+          // Assert
+          verify(mockRemoteDataSource.deleteProduct(tid));
+          expect(result, equals(Left(ServerFailure())));
         },
       );
-
+    });
+    runTestsOffline(() {
       test(
-          'should return server failure when the call to remote data source is unsuccessful',
-          () async {
-        // arrange
-        when(mockRemoteDataSource.deleteProduct(tid))
-            .thenThrow(ServerException());
-        //act
-        final result = await repository.deleteProduct(tid);
+        'should return NetworkFailure when there is no internet connection',
+        () async {
+          // Arrange
+          when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
 
-        //assert
-        verify(mockRemoteDataSource.deleteProduct(tid));
-        verifyZeroInteractions(mockLocalDataSource);
-        expect(result, Left(ServerFailure()));
-      });
+          // Act
+          final result = await repository.deleteProduct(tid);
+
+          // Assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          expect(result, equals(Left(NetworkFailure())));
+        },
+      );
     });
   });
 }

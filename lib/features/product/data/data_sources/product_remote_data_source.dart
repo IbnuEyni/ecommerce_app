@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/core/constants/constants.dart';
 import 'package:ecommerce_app/core/error/exception.dart';
 
@@ -39,7 +40,7 @@ abstract class ProductRemoteDataSource {
   /// Calls the endpoint.
   ///
   /// Throws a [ServerException] for all error codes.
-  Future<ProductModel> deleteProduct(
+  Future<void> deleteProduct(
     int id,
   );
 }
@@ -72,14 +73,12 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<ProductModel> deleteProduct(int id) async {
+  Future<void> deleteProduct(int id) async {
     final response = await client.delete(
       Uri.parse('${Urls.baseUrl}/$id'),
       headers: {'Content-Type': 'application/json'},
     );
-    if (response.statusCode == 200) {
-      return ProductModel.fromJson(json.decode(response.body));
-    } else {
+    if (response.statusCode != 200) {
       throw ServerException();
     }
   }
