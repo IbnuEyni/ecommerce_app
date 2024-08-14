@@ -49,7 +49,7 @@ void main() {
     });
   });
 
-  group('cacheProdu ct', () {
+  group('cacheProduct', () {
     final tProductModel = ProductModel(
         id: 1,
         name: "name",
