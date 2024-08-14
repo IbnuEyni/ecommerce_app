@@ -1,13 +1,13 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/features/product/data/models/product_model.dart';
+
 import '../../../../core/error/exception.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/network/network_info.dart';
-import '../data_sources/product_local_data_source.dart';
-import '../data_sources/product_remote_data_source.dart';
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
-
-import '../../../../core/error/failure.dart';
+import '../data_sources/product_local_data_source.dart';
+import '../data_sources/product_remote_data_source.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource remoteDataSource;
@@ -78,7 +78,8 @@ class ProductRepositoryImpl implements ProductRepository {
     if (await networkInfo.isConnected) {
       try {
         final remoteProduct = await getMethod();
-        localDataSource.cacheProduct(remoteProduct);
+        final remoteProductModel = convertProductToProductModel(remoteProduct);
+        localDataSource.cacheProduct(remoteProductModel);
         return Right(remoteProduct);
       } on ServerException {
         return Left(ServerFailure());
@@ -87,4 +88,24 @@ class ProductRepositoryImpl implements ProductRepository {
       return Left(NetworkFailure());
     }
   }
+}
+
+ProductModel convertProductToProductModel(Product product) {
+  return ProductModel(
+    id: product.id,
+    name: product.name,
+    description: product.description,
+    imageUrl: product.imageUrl,
+    price: product.price,
+  );
+}
+
+Product convertProductModelToProduct(ProductModel productModel) {
+  return Product(
+    id: productModel.id,
+    name: productModel.name,
+    description: productModel.description,
+    imageUrl: productModel.imageUrl,
+    price: productModel.price,
+  );
 }

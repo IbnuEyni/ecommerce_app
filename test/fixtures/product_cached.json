@@ -1,0 +1,7 @@
+{
+    "id":  1,
+    "name": "name",
+    "description": "description",
+    "imageUrl": "imageUrl",
+    "price" : 1
+}
