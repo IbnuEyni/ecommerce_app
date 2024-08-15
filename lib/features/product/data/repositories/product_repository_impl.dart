@@ -72,6 +72,26 @@ class ProductRepositoryImpl implements ProductRepository {
     }
   }
 
+  @override
+  Future<Either<Failure, List<Product>>> listProducts() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final remoteProduct = await remoteDataSource.listProducts();
+        localDataSource.cacheProducts(remoteProduct);
+        return Right(remoteProduct);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      try {
+        final cachedProducts = await localDataSource.getCachedProducts();
+        return Right(cachedProducts);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
+    }
+  }
+
   Future<Either<Failure, Product>> _getResponse(
       Future<Product> Function() getMethod) async {
     if (await networkInfo.isConnected) {
@@ -108,3 +128,15 @@ Product convertProductModelToProduct(ProductModel productModel) {
     price: productModel.price,
   );
 }
+
+// List<ProductModel> convertProductsToProductModels(List<Product> products) {
+//   return products
+//       .map((product) => ProductModel(
+//             id: product.id,
+//             name: product.name,
+//             description: product.description,
+//             imageUrl: product.imageUrl,
+//             price: product.price,
+//           ))
+//       .toList();
+// }

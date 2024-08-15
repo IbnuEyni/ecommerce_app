@@ -138,6 +138,16 @@ class MockProductRemoteDataSource extends _i1.Mock
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<List<_i2.ProductModel>> listProducts() => (super.noSuchMethod(
+        Invocation.method(
+          #listProducts,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
+      ) as _i4.Future<List<_i2.ProductModel>>);
 }
 
 /// A class which mocks [ProductLocalDataSource].
@@ -165,11 +175,32 @@ class MockProductLocalDataSource extends _i1.Mock
       ) as _i4.Future<_i2.ProductModel>);
 
   @override
+  _i4.Future<List<_i2.ProductModel>> getCachedProducts() => (super.noSuchMethod(
+        Invocation.method(
+          #getCachedProducts,
+          [],
+        ),
+        returnValue:
+            _i4.Future<List<_i2.ProductModel>>.value(<_i2.ProductModel>[]),
+      ) as _i4.Future<List<_i2.ProductModel>>);
+
+  @override
   _i4.Future<void> cacheProduct(_i2.ProductModel? productToCache) =>
       (super.noSuchMethod(
         Invocation.method(
           #cacheProduct,
           [productToCache],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<void> cacheProducts(List<_i2.ProductModel>? productsToCache) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #cacheProducts,
+          [productsToCache],
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),

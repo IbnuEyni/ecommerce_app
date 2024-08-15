@@ -50,12 +50,9 @@ void main() {
   });
 
   group('cacheProduct', () {
-    final tProductModel = ProductModel(
-        id: 1,
-        name: "name",
-        description: "description",
-        imageUrl: "imageUrl",
-        price: 1);
+    final tProductModel = ProductModel.fromJson(
+      json.decode(fixture('product_cached.json')),
+    );
     test('should call SharedPreference to cache the data', () async {
       final expectedJsonString = json.encode(tProductModel.toJson());
 
@@ -67,6 +64,57 @@ void main() {
       //assert
       verify(
           mockSharedPreferences.setString(CACHED_PRODUCT, expectedJsonString));
+    });
+  });
+
+  group('getCachedProducts', () {
+    final List<dynamic> jsonList = json.decode(fixture('cached_products.json'));
+    final tProductModels =
+        jsonList.map((jsonItem) => ProductModel.fromJson(jsonItem)).toList();
+
+    test(
+        'should return List<ProductModel> from SharedPreferences when there is a list of products in the cache',
+        () async {
+      final cachedProductJsonList =
+          jsonList.map((jsonItem) => json.encode(jsonItem)).toList();
+      //arrange
+      when(mockSharedPreferences.getStringList(CACHED_PRODUCTS))
+          .thenReturn(cachedProductJsonList);
+      //act
+      final result = await datasource.getCachedProducts();
+      //assert
+      verify(mockSharedPreferences.getStringList(CACHED_PRODUCTS));
+      expect(result, equals(tProductModels));
+    });
+
+    test('should throw a CacheException when there is not a cached products',
+        () async {
+      when(mockSharedPreferences.getStringList(any)).thenReturn(null);
+
+      //act
+      final call = datasource.getCachedProducts;
+      //assert
+      expect(() => call(), throwsA(const TypeMatcher<CacheException>()));
+    });
+  });
+
+  group('cacheProducts', () {
+    final List<dynamic> jsonList = json.decode(fixture('cached_products.json'));
+    final tProductModels =
+        jsonList.map((jsonItem) => ProductModel.fromJson(jsonItem)).toList();
+    final jsonStringList =
+        tProductModels.map((product) => json.encode(product.toJson())).toList();
+
+    test('should call SharedPreferences to cache the list of products',
+        () async {
+      //arrange
+      when(mockSharedPreferences.setStringList(CACHED_PRODUCTS, jsonStringList))
+          .thenAnswer((_) async => true);
+      //act
+      final result = await datasource.cacheProducts(tProductModels);
+      //assert
+      verify(
+          mockSharedPreferences.setStringList(CACHED_PRODUCTS, jsonStringList));
     });
   });
 }

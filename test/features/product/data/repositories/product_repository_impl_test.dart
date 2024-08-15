@@ -352,7 +352,6 @@ void main() {
     // DATA FOR THE MOCKS AND ASSERTIONS
     // We'll use these three variables throughout all the tests
     final tid = 1;
-
     test('should check if the device is online', () async {
       // Arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
@@ -415,6 +414,103 @@ void main() {
           expect(result, equals(Left(NetworkFailure())));
         },
       );
+    });
+  });
+
+  group('listProducts', () {
+    // DATA FOR THE MOCKS AND ASSERTIONS
+    final tProductModels = <ProductModel>[
+      ProductModel(
+        id: 1,
+        name: 'name1',
+        description: 'description1',
+        imageUrl: 'imageUrl1',
+        price: 10,
+      ),
+      ProductModel(
+        id: 2,
+        name: 'name2',
+        description: 'description2',
+        imageUrl: 'imageUrl2',
+        price: 20,
+      ),
+    ];
+    final tProducts = tProductModels
+        .map((model) => convertProductModelToProduct(model))
+        .toList();
+
+    test('should check if the device is online', () async {
+      //arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.listProducts())
+          .thenAnswer((_) async => tProductModels);
+      when(mockLocalDataSource.getCachedProducts())
+          .thenAnswer((_) async => tProductModels);
+      //act
+      await repository.listProducts();
+      //assert
+      verify(mockNetworkInfo.isConnected);
+    });
+
+    runTestsOnline(() {
+      test(
+        'should return remote data when the call to remote data source is successful',
+        () async {
+          // Arrange
+          when(mockRemoteDataSource.listProducts())
+              .thenAnswer((_) async => tProductModels);
+
+          // Act
+          final result = await repository.listProducts();
+
+          // Assert
+          verify(mockRemoteDataSource.listProducts());
+          expect(result, equals(Right(tProductModels)));
+        },
+      );
+
+      test(
+          'should return ServerFailure when the call to remote data source is unsuccessful',
+          () async {
+        //arrange
+        when(mockRemoteDataSource.listProducts()).thenThrow(ServerException());
+        //act
+        final result = await repository.listProducts();
+        //assert
+        verify(mockRemoteDataSource.listProducts());
+        verifyZeroInteractions(mockLocalDataSource);
+        expect(result, Left(ServerFailure()));
+      });
+    });
+
+    runTestsOffline(() async {
+      test(
+          'should return cached products when there is no internet connection and cached data is available',
+          () async {
+        //arrange
+        when(mockLocalDataSource.getCachedProducts())
+            .thenAnswer((_) async => tProductModels);
+        //act
+        final result = await repository.listProducts();
+        //assert
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getCachedProducts());
+        expect(result, equals(Right(tProductModels)));
+      });
+
+      test(
+          'should return CacheFailure when there is no internet connection and no cached data is available',
+          () async {
+        //arrange
+        when(mockLocalDataSource.getCachedProducts())
+            .thenThrow(CacheException());
+        //act
+        final result = await repository.listProducts();
+        //assert
+        verifyZeroInteractions(mockRemoteDataSource);
+        verify(mockLocalDataSource.getCachedProducts());
+        expect(result, equals(Left(CacheFailure())));
+      });
     });
   });
 }

@@ -105,9 +105,9 @@ void main() {
     });
   });
   group('detailProduct', () {
-    final tid = 1;
     final tProductModel =
         ProductModel.fromJson(json.decode(fixture('product.json')));
+    final tid = tProductModel.id;
 
     void setUpDetailMockHttpClientSuccess200() {
       when(mockHttpClient.get(any, headers: anyNamed('headers')))
@@ -284,6 +284,55 @@ void main() {
 
       // Assert
       expect(() => call(tid), throwsA(isA<ServerException>()));
+    });
+  });
+
+  group('listProducts', () {
+    final tProductList = (json.decode(fixture('cached_products.json')) as List)
+        .map((jsonItem) => ProductModel.fromJson(jsonItem))
+        .toList();
+
+    void setUpListProductsMockHttpClientSuccess200() {
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(fixture('cached_products.json'), 200));
+    }
+
+    void setUpListProductsMockHttpClientFailure404() {
+      when(mockHttpClient.get(any, headers: anyNamed('headers')))
+          .thenAnswer((_) async => http.Response('Something went wrong', 404));
+    }
+
+    test('''should perform a GET request on URL with products being the
+       end point and with application/json with header''', () async {
+      // arrange
+      setUpListProductsMockHttpClientSuccess200();
+      // act
+      await dataSource.listProducts();
+      // assert
+      verify(mockHttpClient.get(Uri.parse(Urls.baseUrl),
+          headers: {'Content-Type': 'application/json'}));
+    });
+
+    test(
+        'should return a List<ProductModel> when the response code is 200 (success)',
+        () async {
+      // arrange
+      setUpListProductsMockHttpClientSuccess200();
+      // act
+      final result = await dataSource.listProducts();
+      // assert
+      expect(result, equals(tProductList));
+    });
+
+    test(
+        'should throw a ServerException when the response code is 404 or other',
+        () async {
+      // arrange
+      setUpListProductsMockHttpClientFailure404();
+      // act
+      final call = dataSource.listProducts;
+      // assert
+      expect(() => call(), throwsA(isA<ServerException>()));
     });
   });
 }

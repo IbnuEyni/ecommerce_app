@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../../../core/error/failure.dart';
 import '../entities/product.dart';
 
@@ -24,4 +23,5 @@ abstract class ProductRepository {
   Future<Either<Failure, Unit>> deleteProduct(
     int id,
   );
+  Future<Either<Failure, List<Product>>> listProducts();
 }
