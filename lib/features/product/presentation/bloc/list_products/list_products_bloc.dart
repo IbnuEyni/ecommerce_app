@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/core/usecases/usecase.dart';
 import 'package:ecommerce_app/features/product/domain/entities/product.dart';
 import 'package:ecommerce_app/features/product/domain/usecases/get_all_products.dart';
 import 'package:equatable/equatable.dart';
@@ -9,7 +8,7 @@ part 'list_products_event.dart';
 part 'list_products_state.dart';
 
 class ListProductsBloc extends Bloc<ListProductsEvent, ListProductsState> {
-  final Usecase listProducts;
+  final ListProducts listProducts;
   ListProductsBloc(
     this.listProducts,
   ) : super(ListProductsInitial()) {

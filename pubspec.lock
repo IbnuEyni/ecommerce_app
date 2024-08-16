@@ -349,6 +349,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.0.2"
+  injectable:
+    dependency: "direct main"
+    description:
+      name: injectable
+      sha256: "69874ba3ec10e3a0de3f519a184442878291d928f3299d718813f24642585198"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.4.4"
   internet_connection_checker:
     dependency: "direct main"
     description:

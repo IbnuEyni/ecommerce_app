@@ -20,6 +20,5 @@ class DeleteParams extends Equatable {
   DeleteParams({required this.id});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id];
 }
