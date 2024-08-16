@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecommerce_app/core/error/failure.dart';
+import '../error/failure.dart';
 
 class InputConverter {
   InputConverter(String id);

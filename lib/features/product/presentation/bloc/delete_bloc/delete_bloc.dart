@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/core/util/input_converter.dart';
-import 'package:ecommerce_app/features/product/domain/usecases/delete_product.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../../../core/util/input_converter.dart';
+import '../../../domain/usecases/delete_product.dart';
 import 'package:equatable/equatable.dart';
 
 part 'delete_event.dart';

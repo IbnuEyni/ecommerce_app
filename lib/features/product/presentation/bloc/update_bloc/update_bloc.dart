@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/core/util/input_converter.dart';
-import 'package:ecommerce_app/features/product/domain/entities/product.dart';
-import 'package:ecommerce_app/features/product/domain/usecases/update_product.dart';
-import 'package:ecommerce_app/features/product/presentation/bloc/detail_bloc/detail_bloc.dart';
+import '../../../../../core/error/failure.dart';
+import '../../../../../core/util/input_converter.dart';
+import '../../../domain/entities/product.dart';
+import '../../../domain/usecases/update_product.dart';
+import '../detail_bloc/detail_bloc.dart';
 import 'package:equatable/equatable.dart';
 
 part 'update_event.dart';

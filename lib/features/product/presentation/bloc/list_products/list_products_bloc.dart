@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/features/product/domain/entities/product.dart';
-import 'package:ecommerce_app/features/product/domain/usecases/get_all_products.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../../core/error/failure.dart';
+import '../../../domain/entities/product.dart';
+import '../../../domain/usecases/get_all_products.dart';
 
 part 'list_products_event.dart';
 part 'list_products_state.dart';
@@ -12,6 +13,7 @@ class ListProductsBloc extends Bloc<ListProductsEvent, ListProductsState> {
   ListProductsBloc(
     this.listProducts,
   ) : super(ListProductsInitial()) {
+    print("Initialized successfully");
     on<ListEvent>((event, emit) async {
       emit(ListProductsLoading());
       final failureOrProducts = await listProducts(NoParams());

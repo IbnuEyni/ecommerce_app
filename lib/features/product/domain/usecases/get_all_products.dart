@@ -1,9 +1,10 @@
 import 'package:dartz/dartz.dart';
-import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/core/usecases/usecase.dart';
-import 'package:ecommerce_app/features/product/domain/entities/product.dart';
-import 'package:ecommerce_app/features/product/domain/repositories/product_repository.dart';
 import 'package:equatable/equatable.dart';
+
+import '../../../../core/error/failure.dart';
+import '../../../../core/usecases/usecase.dart';
+import '../entities/product.dart';
+import '../repositories/product_repository.dart';
 
 class ListProducts implements Usecase<List<Product>, NoParams> {
   final ProductRepository repository;
