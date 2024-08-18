@@ -2,11 +2,11 @@ import '../../domain/entities/product.dart';
 
 class ProductModel extends Product {
   ProductModel({
-    required int id,
+    required String id,
     required String name,
     required String description,
     required String imageUrl,
-    required int price,
+    required double price,
   }) : super(
           id: id,
           name: name,
@@ -22,7 +22,7 @@ class ProductModel extends Product {
       name: json['name'],
       description: json['description'],
       imageUrl: json['imageUrl'],
-      price: json['price'],
+      price: (json['price'] as num).toDouble(),
     );
   }
 
@@ -37,13 +37,13 @@ class ProductModel extends Product {
     };
   }
 
-  /// Converts a list of JSON maps to a list of [ProductModel] instances.
-  static List<ProductModel> fromJsonList(List<dynamic> jsonList) {
-    return jsonList.map((json) => ProductModel.fromJson(json)).toList();
-  }
+  // /// Converts a list of JSON maps to a list of [ProductModel] instances.
+  // static List<ProductModel> fromJsonList(List<dynamic> jsonList) {
+  //   return jsonList.map((json) => ProductModel.fromJson(json)).toList();
+  // }
 
-  /// Converts a list of [ProductModel] instances to a list of JSON maps.
-  static List<Map<String, dynamic>> toJsonList(List<ProductModel> products) {
-    return products.map((product) => product.toJson()).toList();
-  }
+  // /// Converts a list of [ProductModel] instances to a list of JSON maps.
+  // static List<Map<String, dynamic>> toJsonList(List<ProductModel> products) {
+  //   return products.map((product) => product.toJson()).toList();
+  // }
 }

@@ -1,6 +1,6 @@
-import 'package:ecommerce_app/core/network/network_info.dart';
-import 'package:ecommerce_app/features/product/data/data_sources/product_local_data_source.dart';
-import 'package:ecommerce_app/features/product/data/data_sources/product_remote_data_source.dart';
+import 'core/network/network_info.dart';
+import 'features/product/data/data_sources/product_local_data_source.dart';
+import 'features/product/data/data_sources/product_remote_data_source.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import 'core/util/input_converter.dart';
@@ -28,9 +28,8 @@ Future<void> init() async {
   sl.registerFactory(() => ListProductsBloc(sl()));
   sl.registerFactory(() => CreateBloc(sl(), sl()));
   sl.registerFactory(() => UpdateBloc(sl(), sl()));
-  sl.registerFactory(() => DeleteBloc(sl(), sl()));
-  sl.registerFactory(
-      () => DetailBloc(inputConverter: sl(), detailProduct: sl()));
+  sl.registerFactory(() => DeleteBloc(sl()));
+  sl.registerFactory(() => DetailBloc(detailProduct: sl()));
 
   // Use cases
   sl.registerLazySingleton(() => ListProducts(repository: sl()));

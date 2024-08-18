@@ -53,14 +53,14 @@ void main() {
   group('detailProduct', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     // We'll use these three variables throughout all the tests
-    final tid = 1;
+    final tid = '1';
 
     final tProductModel = ProductModel(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1,
+      price: 1.0,
     );
 
     final Product tProduct = tProductModel;
@@ -71,9 +71,9 @@ void main() {
           .thenAnswer((_) async => tProductModel);
       when(mockLocalDataSource.getLastProduct())
           .thenAnswer((_) async => tProductModel);
-      // //act
+      //act
       await repository.detailProduct(tid);
-      // //assert
+      //assert
       verify(mockNetworkInfo.isConnected);
     });
 
@@ -164,18 +164,18 @@ void main() {
   group('createProduct', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     // We'll use these three variables throughout all the tests
-    final tid = 1;
+    final tid = '1';
     final tname = 'name';
     final tdescription = 'description';
     final timageUrl = 'imageUrl';
-    final tprice = 10;
+    final tprice = 10.0;
 
     final tProductModel = ProductModel(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1,
+      price: 1.0,
     );
 
     final Product tProduct = tProductModel;
@@ -258,18 +258,18 @@ void main() {
   group('updateProduct', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     // We'll use these three variables throughout all the tests
-    final tid = 1;
+    final tid = '1';
     final tname = 'name';
     final tdescription = 'description';
     final timageUrl = 'imageUrl';
-    final tprice = 10;
+    final tprice = 10.0;
 
     final tProductModel = ProductModel(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1,
+      price: 1.0,
     );
 
     final Product tProduct = tProductModel;
@@ -351,7 +351,7 @@ void main() {
   group('deleteProduct', () {
     // DATA FOR THE MOCKS AND ASSERTIONS
     // We'll use these three variables throughout all the tests
-    final tid = 1;
+    final tid = '1';
     test('should check if the device is online', () async {
       // Arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
@@ -421,18 +421,18 @@ void main() {
     // DATA FOR THE MOCKS AND ASSERTIONS
     final tProductModels = <ProductModel>[
       ProductModel(
-        id: 1,
+        id: '1',
         name: 'name1',
         description: 'description1',
         imageUrl: 'imageUrl1',
-        price: 10,
+        price: 10.0,
       ),
       ProductModel(
-        id: 2,
+        id: '2',
         name: 'name2',
         description: 'description2',
         imageUrl: 'imageUrl2',
-        price: 20,
+        price: 20.0,
       ),
     ];
     final tProducts = tProductModels

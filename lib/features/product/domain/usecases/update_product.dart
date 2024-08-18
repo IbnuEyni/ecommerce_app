@@ -17,11 +17,11 @@ class UpdateProduct implements Usecase<Product, UpdateParams> {
 }
 
 class UpdateParams extends Equatable {
-  final int id;
+  final String id;
   final String name;
   final String description;
   final String imageUrl;
-  final int price;
+  final double price;
 
   UpdateParams(
       {required this.id,

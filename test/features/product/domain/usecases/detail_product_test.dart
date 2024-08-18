@@ -18,14 +18,14 @@ void main() {
     usecase = DetailProduct(repository: mockProductRepository);
   });
 
-  final tid = 1;
+  final tid = '1';
 
   final tProduct = Product(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1);
+      price: 1.0);
 
   test('should get product details for the id from the repository', () async {
     // Arrange

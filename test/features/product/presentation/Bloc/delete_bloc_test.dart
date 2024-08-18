@@ -19,36 +19,17 @@ void main() {
   setUp(() {
     mockDeleteProduct = MockDeleteProduct();
     mockInputConverter = MockInputConverter();
-    deleteBloc = DeleteBloc(mockDeleteProduct, mockInputConverter);
+    deleteBloc = DeleteBloc(mockDeleteProduct);
   });
-
   const tId = '1';
-  const tInvalidId = 'abc';
-  const tParsedId = 1;
 
   test('initial state should be DeleteInitial', () {
     expect(deleteBloc.state, equals(DeleteInitial()));
   });
 
   blocTest<DeleteBloc, DeleteState>(
-    'emit [DeleteProductError] when the ID is invalid',
-    build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tInvalidId))
-          .thenReturn(Left(InvalidInputFailure()));
-      return deleteBloc;
-    },
-    act: (bloc) => bloc.add(const DeleteProductEvent(id: tInvalidId)),
-    expect: () => [
-      DeleteProductLoading(),
-      const DeleteProductError(message: 'Invalid ID'),
-    ],
-  );
-
-  blocTest<DeleteBloc, DeleteState>(
     'emit [DeleteProductLoading, DeleteProductLoaded] when the product is deleted successfully',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tId))
-          .thenReturn(Right(tParsedId));
       when(mockDeleteProduct.call(any))
           .thenAnswer((_) async => const Right(unit));
       return deleteBloc;
@@ -63,8 +44,6 @@ void main() {
   blocTest<DeleteBloc, DeleteState>(
     'emit [DeleteProductLoading, DeleteProductError] when deleting the product fails due to a server error',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tId))
-          .thenReturn(Right(tParsedId));
       when(mockDeleteProduct.call(any))
           .thenAnswer((_) async => Left(ServerFailure()));
       return deleteBloc;

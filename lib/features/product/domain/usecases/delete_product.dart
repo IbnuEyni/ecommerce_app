@@ -15,7 +15,7 @@ class DeleteProduct implements Usecase<Unit, DeleteParams> {
 }
 
 class DeleteParams extends Equatable {
-  final int id;
+  final String id;
 
   DeleteParams({required this.id});
 

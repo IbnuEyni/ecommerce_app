@@ -16,7 +16,7 @@ class DetailProduct implements Usecase<Product, DetailParams> {
 }
 
 class DetailParams extends Equatable {
-  final int id;
+  final String id;
 
   DetailParams({required this.id});
 

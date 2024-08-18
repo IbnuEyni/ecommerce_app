@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dartz/dartz.dart';
 import '../../../../core/constants/constants.dart';
 import '../../../../core/error/exception.dart';
 
@@ -12,36 +11,36 @@ abstract class ProductRemoteDataSource {
   ///
   /// Throws a [ServerException] for all error codes.
   Future<ProductModel> createProduct(
-    int id,
+    String id,
     String name,
     String description,
     String imageUrl,
-    int price,
+    double price,
   );
 
   /// Calls the endpoint to get a product.
   ///
   /// Throws a [ServerException] for all error codes.
   Future<ProductModel> detailProduct(
-    int id,
+    String id,
   );
 
   /// Calls the endpoint to update a product.
   ///
   /// Throws a [ServerException] for all error codes.
   Future<ProductModel> updateProduct(
-    int id,
+    String id,
     String name,
     String description,
     String imageUrl,
-    int price,
+    double price,
   );
 
   /// Calls the endpoint to delete a product.
   ///
   /// Throws a [ServerException] for all error codes.
   Future<void> deleteProduct(
-    int id,
+    String id,
   );
 
   /// Calls the endpoint to fetch a list of products.
@@ -56,8 +55,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   ProductRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<ProductModel> createProduct(int id, String name, String description,
-      String imageUrl, int price) async {
+  Future<ProductModel> createProduct(String id, String name, String description,
+      String imageUrl, double price) async {
     final response = await client.post(
       Uri.parse(Urls.baseUrl),
       headers: {'Content-Type': 'application/json'},
@@ -78,7 +77,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<void> deleteProduct(int id) async {
+  Future<void> deleteProduct(String id) async {
     final response = await client.delete(
       Uri.parse('${Urls.baseUrl}/$id'),
       headers: {'Content-Type': 'application/json'},
@@ -89,7 +88,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<ProductModel> detailProduct(int id) async {
+  Future<ProductModel> detailProduct(String id) async {
     final response = await client.get(
       Uri.parse('${Urls.baseUrl}/$id'),
       headers: {'Content-Type': 'application/json'},
@@ -102,8 +101,8 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
   }
 
   @override
-  Future<ProductModel> updateProduct(int id, String name, String description,
-      String imageUrl, int price) async {
+  Future<ProductModel> updateProduct(String id, String name, String description,
+      String imageUrl, double price) async {
     final response = await client.put(Uri.parse('${Urls.baseUrl}/$id'),
         headers: {'Content-Type': 'application/json'},
         body: json.encode({

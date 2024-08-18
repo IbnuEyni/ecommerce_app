@@ -24,52 +24,47 @@ void main() {
   });
 
   const tId = '1';
-  const tInvalidId = 'abc';
-  const tPrice = '100';
   const tInvalidPrice = 'xyz';
   const tName = 'Test Product';
   const tDescription = 'Test Description';
   const tImageUrl = 'http://example.com/image.jpg';
-  const tParsedId = 1;
-  const tParsedPrice = 100;
+  const tParsedPrice = 100.0;
 
   final tProduct = ProductModel(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1);
+      price: 1.0);
 
   test('initial state should be UpdateInitial', () {
     expect(updateBloc.state, equals(UpdateInitial()));
   });
 
   blocTest<UpdateBloc, UpdateState>(
-    'emit [CreateProductError] when the ID is invalid',
+    'emit [UpdateProductError] when the Price is invalid',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tInvalidId))
+      when(mockInputConverter.stringToUnsignedDouble(tInvalidPrice))
           .thenReturn(Left(InvalidInputFailure()));
       return updateBloc;
     },
     act: (bloc) => bloc.add(UpdateProductEvent(
-      id: tInvalidId,
+      id: tId,
       name: tName,
       description: tDescription,
-      price: tPrice,
+      price: tInvalidPrice,
       imageUrl: tImageUrl,
     )),
     expect: () => [
       UpdateProductLoading(),
-      UpdateProductError(message: 'Invalid ID'),
+      UpdateProductError(message: 'Invalid Price'),
     ],
   );
   blocTest<UpdateBloc, UpdateState>(
     'emit [UpdateProductLoading, UpdateProductLoaded] when the product is updated successfully',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tId))
-          .thenReturn(Right(tParsedId));
-      when(mockInputConverter.stringToUnsignedInteger(tPrice))
-          .thenReturn(Right(tParsedPrice));
+      when(mockInputConverter.stringToUnsignedDouble(tParsedPrice.toString()))
+          .thenReturn(const Right(tParsedPrice));
       when(mockUpdateProduct.call(any))
           .thenAnswer((_) async => Right(tProduct));
       return updateBloc;
@@ -78,7 +73,7 @@ void main() {
       id: tId,
       name: tName,
       description: tDescription,
-      price: tPrice,
+      price: tParsedPrice.toString(),
       imageUrl: tImageUrl,
     )),
     expect: () => [
@@ -89,9 +84,7 @@ void main() {
   blocTest<UpdateBloc, UpdateState>(
     'emit [UpdateProductLoading, UpdateProductError] when updating the product fails due to a server error',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tId))
-          .thenReturn(Right(tParsedId));
-      when(mockInputConverter.stringToUnsignedInteger(tPrice))
+      when(mockInputConverter.stringToUnsignedDouble(tParsedPrice.toString()))
           .thenReturn(Right(tParsedPrice));
       when(mockUpdateProduct.call(any))
           .thenAnswer((_) async => Left(ServerFailure()));
@@ -101,7 +94,7 @@ void main() {
       id: tId,
       name: tName,
       description: tDescription,
-      price: tPrice,
+      price: tParsedPrice.toString(),
       imageUrl: tImageUrl,
     )),
     expect: () => [

@@ -1,4 +1,6 @@
 // import '../../domain/usecases/delete_product.dart';
+import 'package:ecommerce_app/features/product/domain/usecases/delete_product.dart';
+
 import '../bloc/list_products/list_products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -171,7 +173,7 @@ class ListProductsPage extends StatelessWidget {
                   if (result == 'delete') {
                     // Dispatch delete event or handle state update
                     // BlocProvider.of<ListProductsBloc>(context)
-                    //     .add(DeleteProduct(item.id));
+                    //     .add(DeleteProduct(item.id, repository: item.id));
                   }
                 },
                 child: _buildItemCard(item),
@@ -198,7 +200,7 @@ class ListProductsPage extends StatelessWidget {
               topLeft: Radius.circular(40.0),
               topRight: Radius.circular(40.0),
             ),
-            child: Image.asset(
+            child: Image.network(
               item.imageUrl,
               width: 430,
               height: 286,
@@ -230,9 +232,9 @@ class ListProductsPage extends StatelessWidget {
                           )),
                     ),
                     const Icon(Icons.star, color: Colors.amber, size: 16),
-                    Text(
-                      '(${item.rating})',
-                      style: const TextStyle(fontSize: 14, color: Colors.grey),
+                    const Text(
+                      '4',
+                      style: TextStyle(fontSize: 14, color: Colors.grey),
                     ),
                   ],
                 ),
@@ -240,6 +242,33 @@ class ListProductsPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class MessageDisplay extends StatelessWidget {
+  final String message;
+
+  const MessageDisplay({
+    required Key key,
+    required this.message,
+  })  : assert(message != null),
+        super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      // Third of the size of the screen
+      height: MediaQuery.of(context).size.height / 3,
+      child: Center(
+        child: SingleChildScrollView(
+          child: Text(
+            message,
+            style: TextStyle(fontSize: 25),
+            textAlign: TextAlign.center,
+          ),
+        ),
       ),
     );
   }

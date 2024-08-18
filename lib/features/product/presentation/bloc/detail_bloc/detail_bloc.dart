@@ -11,29 +11,21 @@ part 'detail_state.dart';
 
 class DetailBloc extends Bloc<DetailEvent, DetailState> {
   final Usecase detailProduct;
-  final InputConverter inputConverter;
 
   DetailBloc({
     required this.detailProduct,
-    required this.inputConverter,
   }) : super(DetailInitial()) {
-    on<DetailProductEvent>((event, emit) async {
-      final inputEither = inputConverter.stringToUnsignedInteger(event.id);
-
-      await inputEither.fold(
-        (failure) async {
-          emit(Error(message: 'INVALID_INPUT_FAILURE_MESSAGE'));
-        },
-        (id) async {
-          emit(Loading());
-          final failureOrProduct = await detailProduct(DetailParams(id: id));
-          emit(failureOrProduct.fold(
-            (failure) => Error(message: _mapFailureToMessage(failure)),
-            (product) => Loaded(product: product),
-          ));
-        },
-      );
-    });
+    on<DetailProductEvent>(
+      (event, emit) async {
+        emit(Loading());
+        final failureOrProduct =
+            await detailProduct(DetailParams(id: event.id));
+        emit(failureOrProduct.fold(
+          (failure) => Error(message: _mapFailureToMessage(failure)),
+          (product) => Loaded(product: product),
+        ));
+      },
+    );
   }
   String _mapFailureToMessage(Failure failure) {
     switch (failure.runtimeType) {

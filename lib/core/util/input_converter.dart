@@ -2,11 +2,11 @@ import 'package:dartz/dartz.dart';
 import '../error/failure.dart';
 
 class InputConverter {
-  InputConverter(String id);
+  InputConverter(String price);
 
-  Either<Failure, int> stringToUnsignedInteger(String str) {
+  Either<Failure, double> stringToUnsignedDouble(String str) {
     try {
-      final ans = int.parse(str);
+      final ans = double.parse(str);
       if (ans < 0) throw const FormatException();
       return Right(ans);
     } on FormatException {

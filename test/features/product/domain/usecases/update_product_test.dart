@@ -18,18 +18,18 @@ void main() {
     usecase = UpdateProduct(repository: mockProductRepository);
   });
 
-  final tid = 1;
+  final tid = '1';
   final tname = 'name';
   final tdescription = 'description';
   final timageUrl = 'imageUrl';
-  final tprice = 10;
+  final tprice = 10.0;
 
   final tProduct = Product(
-    id: 1,
+    id: '1',
     name: 'name',
     description: 'description',
     imageUrl: 'imageUrl',
-    price: 1,
+    price: 1.0,
   );
 
   test('update the product', () async {

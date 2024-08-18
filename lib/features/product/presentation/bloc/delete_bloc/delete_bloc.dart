@@ -9,29 +9,19 @@ part 'delete_state.dart';
 
 class DeleteBloc extends Bloc<DeleteEvent, DeleteState> {
   final DeleteProduct deleteProduct;
-  final InputConverter inputConverter;
-  DeleteBloc(this.deleteProduct, this.inputConverter) : super(DeleteInitial()) {
-    on<DeleteProductEvent>((event, emit) async {
-      // Convert the string ID to an unsigned integer
-      final inputEither = inputConverter.stringToUnsignedInteger(event.id);
+  DeleteBloc(this.deleteProduct) : super(DeleteInitial()) {
+    on<DeleteProductEvent>(
+      (event, emit) async {
+        emit(DeleteProductLoading());
+        final deleteEither = await deleteProduct(DeleteParams(id: event.id));
 
-      inputEither.fold(
-        (failure) {
-          emit(DeleteProductLoading());
-          emit(DeleteProductError(message: 'Invalid ID'));
-        },
-        (id) async {
-          emit(DeleteProductLoading());
-          final deleteEither = await deleteProduct(DeleteParams(id: id));
-
-          emit(deleteEither.fold(
-            (failure) =>
-                DeleteProductError(message: _mapFailureToMessage(failure)),
-            (_) => DeleteProductLoaded(),
-          ));
-        },
-      );
-    });
+        emit(deleteEither.fold(
+          (failure) =>
+              DeleteProductError(message: _mapFailureToMessage(failure)),
+          (_) => DeleteProductLoaded(),
+        ));
+      },
+    );
   }
 }
 

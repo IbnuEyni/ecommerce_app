@@ -24,17 +24,14 @@ void main() {
   });
 
   const tId = '1';
-  const tInvalidId = 'abc';
-  const tPrice = '100';
   const tInvalidPrice = 'xyz';
   const tName = 'Test Product';
   const tDescription = 'Test Description';
   const tImageUrl = 'http://example.com/image.jpg';
-  const tParsedId = 1;
-  const tParsedPrice = 100;
+  const tParsedPrice = 100.0;
 
   final tProduct = Product(
-    id: tParsedId,
+    id: tId,
     name: tName,
     description: tDescription,
     imageUrl: tImageUrl,
@@ -46,32 +43,30 @@ void main() {
   });
 
   blocTest<CreateBloc, CreateState>(
-    'emit [CreateProductError] when the ID is invalid',
+    'emit [CreateProductError] when the Price is invalid',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tInvalidId))
+      when(mockInputConverter.stringToUnsignedDouble(tInvalidPrice))
           .thenReturn(Left(InvalidInputFailure()));
       return createBloc;
     },
     act: (bloc) => bloc.add(CreateProductEvent(
-      id: tInvalidId,
+      id: tId,
       name: tName,
       description: tDescription,
-      price: tPrice,
+      price: tInvalidPrice,
       imageUrl: tImageUrl,
     )),
     expect: () => [
       CreateProductLoading(),
-      CreateProductError(message: 'Invalid ID'),
+      CreateProductError(message: 'Invalid Price'),
     ],
   );
 
   blocTest<CreateBloc, CreateState>(
     'emit [CreateProductLoading, CreateProductLoaded] when the product is created successfully',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tId))
-          .thenReturn(Right(tParsedId));
-      when(mockInputConverter.stringToUnsignedInteger(tPrice))
-          .thenReturn(Right(tParsedPrice));
+      when(mockInputConverter.stringToUnsignedDouble(tParsedPrice.toString()))
+          .thenReturn(const Right(tParsedPrice));
       when(mockCreateProduct.call(any))
           .thenAnswer((_) async => Right(tProduct));
       return createBloc;
@@ -80,7 +75,7 @@ void main() {
       id: tId,
       name: tName,
       description: tDescription,
-      price: tPrice,
+      price: tParsedPrice.toString(),
       imageUrl: tImageUrl,
     )),
     expect: () => [
@@ -92,10 +87,8 @@ void main() {
   blocTest<CreateBloc, CreateState>(
     'emit [CreateProductLoading, CreateProductError] when creating the product fails due to a server error',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(tId))
-          .thenReturn(Right(tParsedId));
-      when(mockInputConverter.stringToUnsignedInteger(tPrice))
-          .thenReturn(Right(tParsedPrice));
+      when(mockInputConverter.stringToUnsignedDouble(tParsedPrice.toString()))
+          .thenReturn(const Right(tParsedPrice));
       when(mockCreateProduct.call(any))
           .thenAnswer((_) async => Left(ServerFailure()));
       return createBloc;
@@ -104,7 +97,7 @@ void main() {
       id: tId,
       name: tName,
       description: tDescription,
-      price: tPrice,
+      price: tParsedPrice.toString(),
       imageUrl: tImageUrl,
     )),
     expect: () => [

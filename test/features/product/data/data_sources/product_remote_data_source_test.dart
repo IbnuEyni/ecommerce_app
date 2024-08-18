@@ -21,11 +21,11 @@ void main() {
   });
 
   group('createProduct', () {
-    final tid = 1;
-    final tname = 'name';
-    final tdescription = 'descritptioin';
-    final timageUrl = 'imageUrl';
-    final tprice = 1;
+    final tId = '1';
+    final tName = 'name';
+    final tDescription = 'descritptioin';
+    final tImageUrl = 'imageUrl';
+    final tPrice = 1.0;
 
     final tProductModel =
         ProductModel.fromJson(json.decode(fixture('product.json')));
@@ -35,11 +35,11 @@ void main() {
         any,
         headers: anyNamed('headers'),
         body: json.encode({
-          'id': tid,
-          'name': tname,
-          'description': tdescription,
-          'imageUrl': timageUrl,
-          'price': tprice,
+          'id': tId,
+          'name': tName,
+          'description': tDescription,
+          'imageUrl': tImageUrl,
+          'price': tPrice,
         }),
       )).thenAnswer((_) async => http.Response(fixture('product.json'), 201));
     }
@@ -49,43 +49,27 @@ void main() {
         any,
         headers: anyNamed('headers'),
         body: json.encode({
-          'id': tid,
-          'name': tname,
-          'description': tdescription,
-          'imageUrl': timageUrl,
-          'price': tprice,
+          'id': tId,
+          'name': tName,
+          'description': tDescription,
+          'imageUrl': tImageUrl,
+          'price': tPrice,
         }),
       )).thenAnswer((_) async => http.Response('Something went wrong', 404));
     }
 
-    test('''should perform a POST request on URL with product being the
-     end point and with application/json with header''', () async {
-      //arrange
-      setUpCreateMockHttpClientSuccess201();
-      //act
-      await dataSource.createProduct(
-          tid, tname, tdescription, timageUrl, tprice);
-      //assert
-      verify(mockHttpClient.post(
-        Uri.parse(Urls.baseUrl),
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'id': tid,
-          'name': tname,
-          'description': tdescription,
-          'imageUrl': timageUrl,
-          'price': tprice,
-        }),
-      ));
-    });
-
-    test('should return Product when the response code iss 200 (success)',
+    test('should return ProductModel when the response code is 201 (created)',
         () async {
-      //arrange
-      setUpCreateMockHttpClientSuccess201();
-      //act
+      // arrange
+      when(mockHttpClient.post(any,
+              headers: anyNamed('headers'), body: anyNamed('body')))
+          .thenAnswer((_) async => http.Response(
+              json.encode({'data': tProductModel.toJson()}), 201));
+
+      // act
       final result = await dataSource.createProduct(
-          tid, tname, tdescription, timageUrl, tprice);
+          tId, tName, tDescription, tImageUrl, tPrice);
+
       // assert
       expect(result, equals(tProductModel));
     });
@@ -100,7 +84,7 @@ void main() {
       final call = dataSource.createProduct;
 
       // Assert
-      expect(() => call(tid, tname, tdescription, timageUrl, tprice),
+      expect(() => call(tId, tName, tDescription, tImageUrl, tPrice),
           throwsA(isA<ServerException>()));
     });
   });
@@ -110,8 +94,9 @@ void main() {
     final tid = tProductModel.id;
 
     void setUpDetailMockHttpClientSuccess200() {
-      when(mockHttpClient.get(any, headers: anyNamed('headers')))
-          .thenAnswer((_) async => http.Response(fixture('product.json'), 200));
+      when(mockHttpClient.get(any, headers: anyNamed('headers'))).thenAnswer(
+          (_) async => http.Response(
+              json.encode({'data': tProductModel.toJson()}), 200));
     }
 
     void setUpDetailMockHttpClientFailure404() {
@@ -155,27 +140,20 @@ void main() {
   });
 
   group('updateProduct', () {
-    final tid = 1;
+    final tid = '1';
     final tname = 'name';
     final tdescription = 'descritptioin';
     final timageUrl = 'imageUrl';
-    final tprice = 1;
+    final tprice = 1.0;
 
     final tProductModel =
         ProductModel.fromJson(json.decode(fixture('product.json')));
 
     void setUpUpdateMockHttpClientSuccess200() {
-      when(mockHttpClient.put(
-        any,
-        headers: anyNamed('headers'),
-        body: json.encode({
-          'id': tid,
-          'name': tname,
-          'description': tdescription,
-          'imageUrl': timageUrl,
-          'price': tprice,
-        }),
-      )).thenAnswer((_) async => http.Response(fixture('product.json'), 200));
+      when(mockHttpClient.put(any,
+              headers: anyNamed('headers'), body: anyNamed('body')))
+          .thenAnswer((_) async => http.Response(
+              json.encode({'data': tProductModel.toJson()}), 200));
     }
 
     void setUpUpdateMockHttpClientFailure404() {
@@ -240,7 +218,7 @@ void main() {
   });
 
   group('deleteProduct', () {
-    final tid = 1;
+    final tid = '1';
 
     void setUpDeleteMockHttpClientSuccess200() {
       when(mockHttpClient.delete(any, headers: anyNamed('headers')))

@@ -5,24 +5,24 @@ import '../entities/product.dart';
 
 abstract class ProductRepository {
   Future<Either<Failure, Product>> createProduct(
-    int id,
+    String id,
     String name,
     String description,
     String imageUrl,
-    int price,
+    double price,
   );
   Future<Either<Failure, Product>> detailProduct(
-    int id,
+    String id,
   );
   Future<Either<Failure, Product>> updateProduct(
-    int id,
+    String id,
     String name,
     String description,
     String imageUrl,
-    int price,
+    double price,
   );
   Future<Either<Failure, Unit>> deleteProduct(
-    int id,
+    String id,
   );
   Future<Either<Failure, List<Product>>> listProducts();
 }

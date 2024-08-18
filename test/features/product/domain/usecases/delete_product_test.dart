@@ -18,7 +18,7 @@ void main() {
     usecase = DeleteProduct(repository: mockProductRepository);
   });
 
-  final tid = 1;
+  final tid = '1';
 
   test('should delete the product', () async {
     // Arrange

@@ -8,11 +8,11 @@ import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
   final tProductModel = ProductModel(
-    id: 1,
+    id: '1',
     name: 'name',
     description: 'description',
     imageUrl: 'imageUrl',
-    price: 1,
+    price: 1.0,
   );
 
   test(
@@ -52,11 +52,11 @@ void main() {
 
           //assert
           final expectedMap = {
-            "id": 1,
+            "id": '1',
             "name": "name",
             "description": "description",
             "imageUrl": "imageUrl",
-            "price": 1
+            "price": 1.0
           };
           expect(result, expectedMap);
         },

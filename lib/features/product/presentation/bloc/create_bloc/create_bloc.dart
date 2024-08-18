@@ -16,20 +16,20 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
     on<CreateProductEvent>((event, emit) async {
       //Emit a loading while the create is in progress
       emit(CreateProductLoading());
-      final inputEither = inputConverter.stringToUnsignedInteger(event.id);
+      final inputEither = inputConverter.stringToUnsignedDouble(event.price);
 
       await inputEither.fold((failure) {
-        emit(CreateProductError(message: 'Invalid ID'));
-      }, (id) async {
+        emit(CreateProductError(message: 'Invalid Price'));
+      }, (price) async {
         //Emit a loading while the create is in progress
         emit(CreateProductLoading());
         // Execute the create product usecase
         final createEither = await createProduct(CreateParams(
-          id: id,
+          id: event.id,
           name: event.name,
           description: event.description,
           imageUrl: event.imageUrl,
-          price: int.parse(event.price),
+          price: price,
         ));
         //Emit either success or error state based on the result
         emit(createEither.fold(

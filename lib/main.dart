@@ -1,4 +1,5 @@
-import 'package:ecommerce_app/injection_container.dart';
+import 'bloc_observer.dart';
+import 'injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,7 +18,7 @@ import 'injection_container.dart' as di;
 void main() async {
   WidgetsFlutterBinding
       .ensureInitialized(); // Ensure that Flutter's binding is initialized
-  // Bloc.observer = SimpleBlocObserver();
+  Bloc.observer = SimpleBlocObserver();
 
   await di.init(); // Initializes dependency injection
 
@@ -29,7 +30,6 @@ final _router = GoRouter(
   initialLocation: '/',
   routes: [
     GoRoute(
-      name: 'list-products',
       path: '/',
       builder: (context, state) {
         return ListProductsPage();
@@ -37,10 +37,9 @@ final _router = GoRouter(
       routes: <RouteBase>[
         // Add child routes
         GoRoute(
-          path:
-              'detail', // NOTE: Don't need to specify "/" character for router’s parents
+          path: 'detail',
           builder: (context, state) {
-            return DetailPage();
+            return DetailPage(id: state.pathParameters['id']!);
           },
           routes: <RouteBase>[
             GoRoute(

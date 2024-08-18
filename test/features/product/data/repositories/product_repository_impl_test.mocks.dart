@@ -48,11 +48,11 @@ class MockProductRemoteDataSource extends _i1.Mock
 
   @override
   _i4.Future<_i2.ProductModel> createProduct(
-    int? id,
+    String? id,
     String? name,
     String? description,
     String? imageUrl,
-    int? price,
+    double? price,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -81,7 +81,7 @@ class MockProductRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.ProductModel>);
 
   @override
-  _i4.Future<_i2.ProductModel> detailProduct(int? id) => (super.noSuchMethod(
+  _i4.Future<_i2.ProductModel> detailProduct(String? id) => (super.noSuchMethod(
         Invocation.method(
           #detailProduct,
           [id],
@@ -97,11 +97,11 @@ class MockProductRemoteDataSource extends _i1.Mock
 
   @override
   _i4.Future<_i2.ProductModel> updateProduct(
-    int? id,
+    String? id,
     String? name,
     String? description,
     String? imageUrl,
-    int? price,
+    double? price,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -130,7 +130,7 @@ class MockProductRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.ProductModel>);
 
   @override
-  _i4.Future<void> deleteProduct(int? id) => (super.noSuchMethod(
+  _i4.Future<void> deleteProduct(String? id) => (super.noSuchMethod(
         Invocation.method(
           #deleteProduct,
           [id],

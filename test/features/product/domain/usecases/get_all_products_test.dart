@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/features/product/domain/entities/product.dart';
 import 'package:ecommerce_app/features/product/domain/repositories/product_repository.dart';
-import 'package:ecommerce_app/features/product/domain/usecases/detail_product.dart';
 import 'package:ecommerce_app/features/product/domain/usecases/get_all_products.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -21,18 +20,18 @@ void main() {
 
   final tProductList = [
     Product(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1,
+      price: 1.0,
     ),
     Product(
-      id: 2,
+      id: '2',
       name: 'name2',
       description: 'description2',
       imageUrl: 'imageUrl2',
-      price: 20,
+      price: 20.0,
     ),
   ];
   test('should all products from the repository', () async {

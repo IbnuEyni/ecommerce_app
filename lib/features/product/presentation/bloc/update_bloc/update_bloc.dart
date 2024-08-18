@@ -16,20 +16,20 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
     on<UpdateProductEvent>((event, emit) async {
       // Convert the string ID to an unsigned integer
       emit(UpdateProductLoading());
-      final inputEither = inputConverter.stringToUnsignedInteger(event.id);
+      final inputEither = inputConverter.stringToUnsignedDouble(event.price);
 
       await inputEither.fold((failure) {
-        emit(UpdateProductError(message: 'Invalid ID'));
-      }, (id) async {
+        emit(UpdateProductError(message: 'Invalid Price'));
+      }, (price) async {
         //Emit a loading while the update is in progress
         emit(UpdateProductLoading());
         // Execute the update product usecase
         final updateEither = await updateProduct(UpdateParams(
-          id: id,
+          id: event.id,
           name: event.name,
           description: event.description,
           imageUrl: event.imageUrl,
-          price: int.parse(event.price),
+          price: price,
         ));
 
         //Emit either success or error state based on the result

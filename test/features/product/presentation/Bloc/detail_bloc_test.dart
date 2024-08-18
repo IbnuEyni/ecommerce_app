@@ -21,17 +21,16 @@ void main() {
     mockDetailProduct = MockDetailProduct();
     mockInputConverter = MockInputConverter();
 
-    detailBloc = DetailBloc(
-        detailProduct: mockDetailProduct, inputConverter: mockInputConverter);
+    detailBloc = DetailBloc(detailProduct: mockDetailProduct);
   });
 
+  const tId = '1';
   final tProduct = ProductModel(
-      id: 1,
+      id: '1',
       name: 'name',
       description: 'description',
       imageUrl: 'imageUrl',
-      price: 1);
-  const tId = 1;
+      price: 1.0);
 
   test('initial state should be Empty', () {
     expect(detailBloc.state, equals(DetailInitial()));
@@ -39,8 +38,6 @@ void main() {
   blocTest<DetailBloc, DetailState>(
     'emit [Loading, Loaded] when DetailProductEvent is added',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(any))
-          .thenReturn(const Right(tId));
       when(mockDetailProduct.call(any))
           .thenAnswer((_) async => Right(tProduct));
       return detailBloc;
@@ -52,13 +49,11 @@ void main() {
   blocTest<DetailBloc, DetailState>(
     'emit [Loading, Error] when getting data fails',
     build: () {
-      when(mockInputConverter.stringToUnsignedInteger(any))
-          .thenReturn(Right(tId));
       when(mockDetailProduct.call(any))
           .thenAnswer((_) async => Left(ServerFailure()));
       return detailBloc;
     },
-    act: (bloc) => bloc.add(DetailProductEvent(id: tId.toString())),
+    act: (bloc) => bloc.add(DetailProductEvent(id: tId)),
     expect: () => [
       Loading(),
       Error(message: 'SERVER_FAILURE_MESSAGE'),

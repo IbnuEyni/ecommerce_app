@@ -23,16 +23,16 @@ void main() {
 
   final tProductsList = [
     Product(
-        id: 1,
+        id: '1',
         name: 'Product 1',
         description: 'Description 1',
-        price: 10,
+        price: 10.0,
         imageUrl: 'imageUrl1'),
     Product(
-        id: 2,
+        id: '2',
         name: 'Product 2',
         description: 'Description 2',
-        price: 20,
+        price: 20.0,
         imageUrl: 'imageUrl2'),
   ];
 

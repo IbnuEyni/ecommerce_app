@@ -17,11 +17,11 @@ class CreateProduct implements Usecase<Product, CreateParams> {
 }
 
 class CreateParams extends Equatable {
-  final int id;
+  final String id;
   final String name;
   final String description;
   final String imageUrl;
-  final int price;
+  final double price;
 
   const CreateParams({
     required this.id,

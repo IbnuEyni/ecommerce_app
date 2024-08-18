@@ -95,18 +95,18 @@ class MockInputConverter extends _i1.Mock implements _i8.InputConverter {
   }
 
   @override
-  _i3.Either<_i6.Failure, int> stringToUnsignedInteger(String? str) =>
+  _i3.Either<_i6.Failure, double> stringToUnsignedDouble(String? str) =>
       (super.noSuchMethod(
         Invocation.method(
-          #stringToUnsignedInteger,
+          #stringToUnsignedDouble,
           [str],
         ),
-        returnValue: _FakeEither_1<_i6.Failure, int>(
+        returnValue: _FakeEither_1<_i6.Failure, double>(
           this,
           Invocation.method(
-            #stringToUnsignedInteger,
+            #stringToUnsignedDouble,
             [str],
           ),
         ),
-      ) as _i3.Either<_i6.Failure, int>);
+      ) as _i3.Either<_i6.Failure, double>);
 }
