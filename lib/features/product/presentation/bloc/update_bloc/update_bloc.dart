@@ -1,10 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/util/input_converter.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/usecases/update_product.dart';
-import '../detail_bloc/detail_bloc.dart';
-import 'package:equatable/equatable.dart';
 
 part 'update_event.dart';
 part 'update_state.dart';
@@ -14,7 +14,7 @@ class UpdateBloc extends Bloc<UpdateEvent, UpdateState> {
   final InputConverter inputConverter;
   UpdateBloc(this.updateProduct, this.inputConverter) : super(UpdateInitial()) {
     on<UpdateProductEvent>((event, emit) async {
-      // Convert the string ID to an unsigned integer
+      // Convert the string Price to an unsigned integer
       emit(UpdateProductLoading());
       final inputEither = inputConverter.stringToUnsignedDouble(event.price);
 

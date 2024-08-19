@@ -9,6 +9,7 @@ class DeleteProduct implements Usecase<Unit, DeleteParams> {
   final ProductRepository repository;
 
   DeleteProduct({required this.repository});
+  @override
   Future<Either<Failure, Unit>> call(DeleteParams params) async {
     return await repository.deleteProduct(params.id);
   }

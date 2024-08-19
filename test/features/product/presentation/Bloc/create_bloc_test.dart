@@ -50,7 +50,6 @@ void main() {
       return createBloc;
     },
     act: (bloc) => bloc.add(CreateProductEvent(
-      id: tId,
       name: tName,
       description: tDescription,
       price: tInvalidPrice,
@@ -72,7 +71,6 @@ void main() {
       return createBloc;
     },
     act: (bloc) => bloc.add(CreateProductEvent(
-      id: tId,
       name: tName,
       description: tDescription,
       price: tParsedPrice.toString(),
@@ -94,7 +92,6 @@ void main() {
       return createBloc;
     },
     act: (bloc) => bloc.add(CreateProductEvent(
-      id: tId,
       name: tName,
       description: tDescription,
       price: tParsedPrice.toString(),

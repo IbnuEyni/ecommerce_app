@@ -43,7 +43,7 @@ void main() {
       return detailBloc;
     },
     act: (bloc) => bloc.add(DetailProductEvent(id: tId.toString())),
-    expect: () => [Loading(), Loaded(product: tProduct)],
+    expect: () => [DetailLoading(), DetailLoaded(product: tProduct)],
   );
 
   blocTest<DetailBloc, DetailState>(
@@ -55,8 +55,8 @@ void main() {
     },
     act: (bloc) => bloc.add(DetailProductEvent(id: tId)),
     expect: () => [
-      Loading(),
-      Error(message: 'SERVER_FAILURE_MESSAGE'),
+      DetailLoading(),
+      DetailError(message: 'SERVER_FAILURE_MESSAGE'),
     ],
   );
 }

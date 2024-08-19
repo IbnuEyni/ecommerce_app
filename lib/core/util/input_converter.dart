@@ -1,9 +1,8 @@
 import 'package:dartz/dartz.dart';
+
 import '../error/failure.dart';
 
 class InputConverter {
-  InputConverter(String price);
-
   Either<Failure, double> stringToUnsignedDouble(String str) {
     try {
       final ans = double.parse(str);

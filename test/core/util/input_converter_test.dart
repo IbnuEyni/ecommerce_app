@@ -6,7 +6,7 @@ void main() {
   late InputConverter inputConverter;
 
   setUp(() {
-    inputConverter = InputConverter('123');
+    inputConverter = InputConverter();
   });
 
   group('stringToUnsignedInt', () {

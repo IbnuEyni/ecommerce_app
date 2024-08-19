@@ -46,7 +46,6 @@ class MockProductRepository extends _i1.Mock implements _i3.ProductRepository {
 
   @override
   _i4.Future<_i2.Either<_i5.Failure, _i6.Product>> createProduct(
-    String? id,
     String? name,
     String? description,
     String? imageUrl,
@@ -56,7 +55,6 @@ class MockProductRepository extends _i1.Mock implements _i3.ProductRepository {
         Invocation.method(
           #createProduct,
           [
-            id,
             name,
             description,
             imageUrl,
@@ -69,7 +67,6 @@ class MockProductRepository extends _i1.Mock implements _i3.ProductRepository {
           Invocation.method(
             #createProduct,
             [
-              id,
               name,
               description,
               imageUrl,

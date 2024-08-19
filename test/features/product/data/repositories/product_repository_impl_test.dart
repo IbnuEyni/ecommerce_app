@@ -183,13 +183,12 @@ void main() {
       //arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
       when(mockRemoteDataSource.createProduct(
-              tid, tname, tdescription, timageUrl, tprice))
+              tname, tdescription, timageUrl, tprice))
           .thenAnswer((_) async => tProductModel);
       when(mockLocalDataSource.getLastProduct())
           .thenAnswer((_) async => tProductModel);
       // //act
-      await repository.createProduct(
-          tid, tname, tdescription, timageUrl, tprice);
+      await repository.createProduct(tname, tdescription, timageUrl, tprice);
       // //assert
       verify(mockNetworkInfo.isConnected);
     });
@@ -200,17 +199,17 @@ void main() {
         () async {
           //arrange
           when(mockRemoteDataSource.createProduct(
-                  tid, tname, tdescription, timageUrl, tprice))
+                  tname, tdescription, timageUrl, tprice))
               .thenAnswer((_) async => tProductModel);
 
           //act
           final result = await repository.createProduct(
-              tid, tname, tdescription, timageUrl, tprice);
+              tname, tdescription, timageUrl, tprice);
 
           //assert
           verify(
             mockRemoteDataSource.createProduct(
-                tid, tname, tdescription, timageUrl, tprice),
+                tname, tdescription, timageUrl, tprice),
           );
           expect(result, equals(Right(tProductModel)));
         },
@@ -220,17 +219,17 @@ void main() {
         () async {
           //arrange
           when(mockRemoteDataSource.createProduct(
-                  tid, tname, tdescription, timageUrl, tprice))
+                  tname, tdescription, timageUrl, tprice))
               .thenAnswer((_) async => tProductModel);
 
           //act
           await repository.createProduct(
-              tid, tname, tdescription, timageUrl, tprice);
+              tname, tdescription, timageUrl, tprice);
 
           //assert
           verify(
             mockRemoteDataSource.createProduct(
-                tid, tname, tdescription, timageUrl, tprice),
+                tname, tdescription, timageUrl, tprice),
           );
           verify(mockLocalDataSource.cacheProduct(tProductModel));
         },
@@ -241,15 +240,15 @@ void main() {
           () async {
         // arrange
         when(mockRemoteDataSource.createProduct(
-                tid, tname, tdescription, timageUrl, tprice))
+                tname, tdescription, timageUrl, tprice))
             .thenThrow(ServerException());
         //act
         final result = await repository.createProduct(
-            tid, tname, tdescription, timageUrl, tprice);
+            tname, tdescription, timageUrl, tprice);
 
         //assert
         verify(mockRemoteDataSource.createProduct(
-            tid, tname, tdescription, timageUrl, tprice));
+            tname, tdescription, timageUrl, tprice));
         verifyZeroInteractions(mockLocalDataSource);
         expect(result, Left(ServerFailure()));
       });

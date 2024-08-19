@@ -34,12 +34,11 @@ void main() {
 
   test('create product', () async {
     // Arrange
-    when(mockProductRepository.createProduct(any, any, any, any, any))
+    when(mockProductRepository.createProduct(any, any, any, any))
         .thenAnswer((_) async => Right(tProduct));
     //act
     final result = await usecase(
       CreateParams(
-          id: tid,
           name: tname,
           description: tdescription,
           imageUrl: timageUrl,
@@ -49,7 +48,7 @@ void main() {
     // Assert
     expect(result, Right(tProduct));
     verify(mockProductRepository.createProduct(
-        tid, tname, tdescription, timageUrl, tprice));
+        tname, tdescription, timageUrl, tprice));
     verifyNoMoreInteractions(mockProductRepository);
   });
 }

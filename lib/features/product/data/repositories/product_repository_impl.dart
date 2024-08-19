@@ -21,11 +21,10 @@ class ProductRepositoryImpl implements ProductRepository {
   });
 
   @override
-  Future<Either<Failure, Product>> createProduct(String id, String name,
-      String description, String imageUrl, double price) async {
+  Future<Either<Failure, Product>> createProduct(
+      String name, String description, String imageUrl, double price) async {
     return await _getResponse(() {
-      return remoteDataSource.createProduct(
-          id, name, description, imageUrl, price);
+      return remoteDataSource.createProduct(name, description, imageUrl, price);
     });
   }
 

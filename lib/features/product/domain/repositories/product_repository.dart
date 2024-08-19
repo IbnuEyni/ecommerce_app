@@ -5,7 +5,6 @@ import '../entities/product.dart';
 
 abstract class ProductRepository {
   Future<Either<Failure, Product>> createProduct(
-    String id,
     String name,
     String description,
     String imageUrl,

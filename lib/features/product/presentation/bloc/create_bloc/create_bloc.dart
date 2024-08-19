@@ -1,9 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/util/input_converter.dart';
 import '../../../domain/entities/product.dart';
 import '../../../domain/usecases/create_product.dart';
-import 'package:equatable/equatable.dart';
 
 part 'create_event.dart';
 part 'create_state.dart';
@@ -18,14 +19,13 @@ class CreateBloc extends Bloc<CreateEvent, CreateState> {
       emit(CreateProductLoading());
       final inputEither = inputConverter.stringToUnsignedDouble(event.price);
 
-      await inputEither.fold((failure) {
+      await inputEither.fold((failure) async {
         emit(CreateProductError(message: 'Invalid Price'));
       }, (price) async {
         //Emit a loading while the create is in progress
         emit(CreateProductLoading());
         // Execute the create product usecase
         final createEither = await createProduct(CreateParams(
-          id: event.id,
           name: event.name,
           description: event.description,
           imageUrl: event.imageUrl,

@@ -1,8 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:equatable/equatable.dart';
+
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/util/input_converter.dart';
 import '../../../domain/usecases/delete_product.dart';
-import 'package:equatable/equatable.dart';
 
 part 'delete_event.dart';
 part 'delete_state.dart';

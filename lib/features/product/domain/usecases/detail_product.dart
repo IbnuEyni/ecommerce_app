@@ -21,6 +21,5 @@ class DetailParams extends Equatable {
   DetailParams({required this.id});
 
   @override
-  // TODO: implement props
   List<Object?> get props => [id];
 }

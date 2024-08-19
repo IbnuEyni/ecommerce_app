@@ -48,7 +48,6 @@ class MockProductRemoteDataSource extends _i1.Mock
 
   @override
   _i4.Future<_i2.ProductModel> createProduct(
-    String? id,
     String? name,
     String? description,
     String? imageUrl,
@@ -58,7 +57,6 @@ class MockProductRemoteDataSource extends _i1.Mock
         Invocation.method(
           #createProduct,
           [
-            id,
             name,
             description,
             imageUrl,
@@ -70,7 +68,6 @@ class MockProductRemoteDataSource extends _i1.Mock
           Invocation.method(
             #createProduct,
             [
-              id,
               name,
               description,
               imageUrl,

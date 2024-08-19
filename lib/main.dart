@@ -1,3 +1,5 @@
+import 'features/product/presentation/pages/update_page.dart';
+
 import 'bloc_observer.dart';
 import 'injection_container.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +11,10 @@ import 'features/product/presentation/bloc/delete_bloc/delete_bloc.dart';
 import 'features/product/presentation/bloc/detail_bloc/detail_bloc.dart';
 import 'features/product/presentation/bloc/list_products/list_products_bloc.dart';
 import 'features/product/presentation/bloc/update_bloc/update_bloc.dart';
-import 'features/product/presentation/pages/List_products_page.dart';
 import 'features/product/presentation/pages/create_page.dart';
-import 'features/product/presentation/pages/detail_page.dart';
+import 'features/product/presentation/pages/List_products_page.dart';
 import 'features/product/presentation/pages/serch_page.dart';
+import 'features/product/presentation/pages/detail_page.dart';
 import 'injection_container.dart' as di;
 
 void main() async {
@@ -31,46 +33,46 @@ final _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) {
-        return ListProductsPage();
+      builder: (BuildContext context, GoRouterState state) {
+        return const ListProductsPage();
       },
-      routes: <RouteBase>[
-        // Add child routes
-        GoRoute(
-          path: 'detail',
-          builder: (context, state) {
-            return DetailPage(id: state.pathParameters['id']!);
-          },
-          routes: <RouteBase>[
-            GoRoute(
-              name: 'update',
-              path: 'update',
-              builder: (context, state) {
-                return CreatePage();
-              },
-            )
-          ],
-        ),
-        GoRoute(
-          name: 'create',
-          path: 'create',
-          builder: (context, state) {
-            return CreatePage();
-          },
-        ),
-        GoRoute(
-          name: 'search',
-          path: 'search',
-          builder: (context, state) {
-            return SearchPage();
-          },
-        ),
-      ],
+    ),
+    GoRoute(
+      name: 'detail',
+      path: '/detail/:id',
+      builder: (context, state) {
+        final String id = state.pathParameters['id']!;
+        return DetailPage(id: id);
+      },
+    ),
+    GoRoute(
+      name: 'create',
+      path: '/create',
+      builder: (context, state) {
+        return CreatePage();
+      },
+    ),
+    GoRoute(
+      name: 'update',
+      path: '/update/:id',
+      builder: (context, state) {
+        final String id = state.pathParameters['id']!;
+        return AddItemPage(id: id);
+      },
+    ),
+    GoRoute(
+      name: 'search',
+      path: '/search',
+      builder: (context, state) {
+        return const SearchPage();
+      },
     ),
   ],
 );
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

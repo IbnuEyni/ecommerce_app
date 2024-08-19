@@ -9,21 +9,21 @@ sealed class DetailState extends Equatable {
 
 final class DetailInitial extends DetailState {}
 
-final class Loading extends DetailState {}
+final class DetailLoading extends DetailState {}
 
-final class Loaded extends DetailState {
+final class DetailLoaded extends DetailState {
   final Product product;
 
-  Loaded({required this.product});
+  DetailLoaded({required this.product});
 
   @override
   List<Object> get props => [product];
 }
 
-final class Error extends DetailState {
+final class DetailError extends DetailState {
   final String message;
 
-  Error({required this.message});
+  DetailError({required this.message});
 
   @override
   List<Object> get props => [message];

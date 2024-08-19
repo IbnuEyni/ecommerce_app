@@ -1,4 +1,4 @@
-import 'package:ecommerce_app/features/product/presentation/pages/item.dart';
+import 'item.dart';
 
 import '../widgets/button_widget.dart';
 import 'package:flutter/material.dart';

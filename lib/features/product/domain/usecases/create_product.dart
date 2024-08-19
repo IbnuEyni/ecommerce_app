@@ -11,20 +11,18 @@ class CreateProduct implements Usecase<Product, CreateParams> {
 
   CreateProduct({required this.repository});
   Future<Either<Failure, Product>> call(CreateParams params) async {
-    return await repository.createProduct(params.id, params.name,
-        params.description, params.imageUrl, params.price);
+    return await repository.createProduct(
+        params.name, params.description, params.imageUrl, params.price);
   }
 }
 
 class CreateParams extends Equatable {
-  final String id;
   final String name;
   final String description;
   final String imageUrl;
   final double price;
 
   const CreateParams({
-    required this.id,
     required this.name,
     required this.description,
     required this.imageUrl,
@@ -32,5 +30,5 @@ class CreateParams extends Equatable {
   });
 
   @override
-  List<Object?> get props => [id, name, description, imageUrl, price];
+  List<Object?> get props => [name, description, imageUrl, price];
 }

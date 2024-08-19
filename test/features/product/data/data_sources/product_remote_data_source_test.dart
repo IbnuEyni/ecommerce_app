@@ -68,7 +68,7 @@ void main() {
 
       // act
       final result = await dataSource.createProduct(
-          tId, tName, tDescription, tImageUrl, tPrice);
+          tName, tDescription, tImageUrl, tPrice);
 
       // assert
       expect(result, equals(tProductModel));
@@ -84,7 +84,7 @@ void main() {
       final call = dataSource.createProduct;
 
       // Assert
-      expect(() => call(tId, tName, tDescription, tImageUrl, tPrice),
+      expect(() => call(tName, tDescription, tImageUrl, tPrice),
           throwsA(isA<ServerException>()));
     });
   });
