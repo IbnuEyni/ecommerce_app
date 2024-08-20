@@ -1,24 +1,25 @@
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:ecommerce_app/features/product/presentation/bloc/detail_bloc/detail_bloc.dart';
-import 'package:ecommerce_app/features/product/presentation/bloc/update_bloc/update_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
+import '../bloc/detail_bloc/detail_bloc.dart';
+import '../bloc/update_bloc/update_bloc.dart';
 import '../widgets/button_widget.dart';
+import '../widgets/textfield_widget.dart';
 
-class AddItemPage extends StatefulWidget {
+class UpdatePage extends StatefulWidget {
   final String id;
-  const AddItemPage({super.key, required this.id});
+  const UpdatePage({super.key, required this.id});
 
   @override
-  _AddItemPageState createState() => _AddItemPageState();
+  _UpdatePageState createState() => _UpdatePageState();
 }
 
-class _AddItemPageState extends State<AddItemPage> {
+class _UpdatePageState extends State<UpdatePage> {
   late TextEditingController _nameController;
   late TextEditingController _priceController;
   late TextEditingController _descriptionController;
@@ -161,56 +162,20 @@ class _AddItemPageState extends State<AddItemPage> {
                 ),
               ),
               const SizedBox(height: 16.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Name"),
-                  TextField(
-                    controller: _nameController,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ],
+              CustomTextField('Name', _nameController),
+              const SizedBox(height: 16.0),
+              CustomTextField(
+                'Price',
+                _priceController,
+                keyboardType: TextInputType.number,
+                suffixIcon: const Padding(
+                  padding: EdgeInsets.all(5.0),
+                  child: Text("\$"),
+                ),
               ),
               const SizedBox(height: 16.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Price"),
-                  TextField(
-                    controller: _priceController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      border: InputBorder.none,
-                      suffixIcon: const Padding(
-                        padding: EdgeInsets.all(5.0),
-                        child: Text("\$"),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text("Description"),
-                  TextField(
-                    controller: _descriptionController,
-                    maxLines: 4,
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.grey[200],
-                      border: InputBorder.none,
-                    ),
-                  ),
-                ],
-              ),
+              CustomTextField('Description', _descriptionController,
+                  maxLines: 4),
               const SizedBox(height: 16.0),
               BlocConsumer<UpdateBloc, UpdateState>(
                 listener: (context, state) {
@@ -220,7 +185,8 @@ class _AddItemPageState extends State<AddItemPage> {
                         content: Text('Product updated successfully!'),
                       ),
                     );
-                    context.pop();
+                    // context.pop();
+                    context.go('/');
                   } else if (state is UpdateProductError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

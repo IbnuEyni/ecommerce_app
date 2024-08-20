@@ -1,21 +1,20 @@
-import 'features/product/presentation/pages/update_page.dart';
-
-import 'bloc_observer.dart';
-import 'injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import 'bloc_observer.dart';
 import 'features/product/presentation/bloc/create_bloc/create_bloc.dart';
 import 'features/product/presentation/bloc/delete_bloc/delete_bloc.dart';
 import 'features/product/presentation/bloc/detail_bloc/detail_bloc.dart';
 import 'features/product/presentation/bloc/list_products/list_products_bloc.dart';
 import 'features/product/presentation/bloc/update_bloc/update_bloc.dart';
-import 'features/product/presentation/pages/create_page.dart';
 import 'features/product/presentation/pages/List_products_page.dart';
-import 'features/product/presentation/pages/serch_page.dart';
+import 'features/product/presentation/pages/create_page.dart';
 import 'features/product/presentation/pages/detail_page.dart';
+import 'features/product/presentation/pages/serch_page.dart';
+import 'features/product/presentation/pages/update_page.dart';
 import 'injection_container.dart' as di;
+import 'injection_container.dart';
 
 void main() async {
   WidgetsFlutterBinding
@@ -57,7 +56,7 @@ final _router = GoRouter(
       path: '/update/:id',
       builder: (context, state) {
         final String id = state.pathParameters['id']!;
-        return AddItemPage(id: id);
+        return UpdatePage(id: id);
       },
     ),
     GoRoute(

@@ -1,16 +1,16 @@
-import '../widgets/product_card_widget.dart';
-
-import '../bloc/list_products/list_products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+
+import '../bloc/list_products/list_products_bloc.dart';
+import '../widgets/product_card_widget.dart';
 
 class ListProductsPage extends StatelessWidget {
   const ListProductsPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    context.read<ListProductsBloc>().add(ListEvent());
+    BlocProvider.of<ListProductsBloc>(context).add(ListEvent());
     return SafeArea(
       child: Scaffold(
         body: Padding(

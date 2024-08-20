@@ -1,13 +1,14 @@
 import 'dart:io';
 import 'dart:typed_data';
-import '../bloc/list_products/list_products_bloc.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../bloc/create_bloc/create_bloc.dart';
 import '../widgets/button_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:image_picker/image_picker.dart';
+import '../widgets/textfield_widget.dart';
 
 class CreatePage extends StatefulWidget {
   CreatePage({super.key});
@@ -183,39 +184,5 @@ class _CreatePageState extends State<CreatePage> {
     // } else {
     //   return const Center(child: Text('Something went wrong!'));
     // }
-  }
-}
-
-class CustomTextField extends StatelessWidget {
-  final String label;
-  final TextEditingController controller;
-  final TextInputType keyboardType;
-  final int maxLines;
-  final Widget? suffixIcon;
-
-  CustomTextField(this.label, this.controller,
-      {this.keyboardType = TextInputType.text,
-      this.suffixIcon,
-      this.maxLines = 1});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label),
-        TextField(
-          controller: controller,
-          keyboardType: keyboardType,
-          maxLines: maxLines,
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: Colors.grey[200],
-            border: InputBorder.none,
-            suffixIcon: suffixIcon,
-          ),
-        ),
-      ],
-    );
   }
 }

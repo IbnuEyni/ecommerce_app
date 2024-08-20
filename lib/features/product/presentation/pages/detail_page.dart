@@ -1,5 +1,5 @@
-import 'package:ecommerce_app/features/product/presentation/bloc/delete_bloc/delete_bloc.dart';
-import 'package:ecommerce_app/features/product/presentation/bloc/list_products/list_products_bloc.dart';
+import '../bloc/delete_bloc/delete_bloc.dart';
+import '../bloc/list_products/list_products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
