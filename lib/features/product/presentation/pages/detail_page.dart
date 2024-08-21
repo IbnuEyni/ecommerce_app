@@ -1,10 +1,10 @@
-import '../bloc/delete_bloc/delete_bloc.dart';
-import '../bloc/list_products/list_products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../bloc/delete_bloc/delete_bloc.dart';
 import '../bloc/detail_bloc/detail_bloc.dart';
+import '../bloc/list_products/list_products_bloc.dart';
 import '../widgets/button_widget.dart';
 import '../widgets/number_card.dart';
 
@@ -53,6 +53,7 @@ class _DetailPageState extends State<DetailPage> {
           } else if (state is DetailLoaded) {
             final ourItem = state.product;
             return SafeArea(
+              key: const Key('Detail_product'),
               child: Scaffold(
                 body: SingleChildScrollView(
                   child: Column(

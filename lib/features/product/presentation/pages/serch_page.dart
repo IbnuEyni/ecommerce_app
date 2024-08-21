@@ -1,4 +1,7 @@
-import 'item.dart';
+import 'package:ecommerce_app/features/product/domain/entities/product.dart';
+import 'package:ecommerce_app/features/product/presentation/bloc/list_products/list_products_bloc.dart';
+import 'package:ecommerce_app/features/product/presentation/widgets/product_card_widget.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/button_widget.dart';
 import 'package:flutter/material.dart';
@@ -45,7 +48,33 @@ class _SearchPageState extends State<SearchPage> {
           children: <Widget>[
             _buildSearchBar(context),
             const SizedBox(height: 16),
-            _buildItemList(context),
+            Expanded(
+              child: BlocBuilder<ListProductsBloc, ListProductsState>(
+                builder: (context, state) {
+                  if (state is ListProductsLoading) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (state is ListProductsLoaded) {
+                    final items = state.products;
+                    return ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final item = items[index];
+                        return GestureDetector(
+                          onTap: () async {
+                            context.push('/detail/${item.id}');
+                          },
+                          child: ProductCardWidget(item: item),
+                        );
+                      },
+                    );
+                  } else if (state is ListProductsError) {
+                    return const Center(child: Text('Failed to load products'));
+                  } else {
+                    return const Center(child: Text('No products available'));
+                  }
+                },
+              ),
+            ),
           ],
         ),
       ),
@@ -116,23 +145,6 @@ class _SearchPageState extends State<SearchPage> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildItemList(BuildContext context) {
-    return Expanded(
-      child: ListView.builder(
-        itemCount: items.length,
-        itemBuilder: (context, index) {
-          final item = items[index];
-          return _ItemCard(
-            item: item,
-            onTap: () {
-              context.push('/detail/${item.id}');
-            },
-          );
-        },
-      ),
     );
   }
 }
@@ -222,7 +234,7 @@ class _SearchModal extends StatelessWidget {
 }
 
 class _ItemCard extends StatelessWidget {
-  final Item item;
+  final Product item;
   final VoidCallback onTap;
 
   const _ItemCard({
@@ -291,7 +303,7 @@ class _ItemCard extends StatelessWidget {
               const Icon(Icons.star, color: Colors.amber, size: 16),
               const Text(
                 '4',
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
+                style: TextStyle(fontSize: 14, color: Colors.grey),
               ),
             ],
           ),

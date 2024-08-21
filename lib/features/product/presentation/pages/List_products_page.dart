@@ -141,17 +141,13 @@ class ListProductsPage extends StatelessWidget {
                     } else if (state is ListProductsLoaded) {
                       final items = state.products;
                       return ListView.builder(
+                        key: const Key('List_products'),
                         itemCount: items.length,
                         itemBuilder: (context, index) {
                           final item = items[index];
                           return GestureDetector(
                             onTap: () async {
                               context.push('/detail/${item.id}');
-                              // if (result == 'delete') {
-                              //   // Dispatch delete event or handle state update
-                              //   // BlocProvider.of<ListProductsBloc>(context)
-                              //   //     .add(DeleteProduct(item.id, repository: item.id));
-                              // }
                             },
                             child: ProductCardWidget(item: item),
                           );

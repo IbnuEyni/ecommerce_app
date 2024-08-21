@@ -127,15 +127,3 @@ Product convertProductModelToProduct(ProductModel productModel) {
     price: productModel.price,
   );
 }
-
-// List<ProductModel> convertProductsToProductModels(List<Product> products) {
-//   return products
-//       .map((product) => ProductModel(
-//             id: product.id,
-//             name: product.name,
-//             description: product.description,
-//             imageUrl: product.imageUrl,
-//             price: product.price,
-//           ))
-//       .toList();
-// }
