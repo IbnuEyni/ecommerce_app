@@ -13,14 +13,14 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   LoginBloc(this.loginUseCase) : super(LoginInitial()) {
     on<LoginRequested>((event, emit) async {
       emit(LoginLoading());
-      final Either<Failure, AuthUser> result = await loginUseCase(
+      final Either<Failure, String> result = await loginUseCase(
         email: event.email,
         password: event.password,
       );
 
       result.fold(
           (failure) => emit(LoginError(message: _mapFailureToMessage(failure))),
-          (user) => emit(LoginLoaded(user: user)));
+          (token) => emit(LoginLoaded(token: token)));
     });
   }
 

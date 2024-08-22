@@ -65,18 +65,17 @@ class MockLogoutUseCase extends _i1.Mock implements _i4.LogoutUseCase {
       ) as _i2.AuthRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, void>> call(String? token) =>
-      (super.noSuchMethod(
+  _i5.Future<_i3.Either<_i6.Failure, void>> call() => (super.noSuchMethod(
         Invocation.method(
           #call,
-          [token],
+          [],
         ),
         returnValue: _i5.Future<_i3.Either<_i6.Failure, void>>.value(
             _FakeEither_1<_i6.Failure, void>(
           this,
           Invocation.method(
             #call,
-            [token],
+            [],
           ),
         )),
       ) as _i5.Future<_i3.Either<_i6.Failure, void>>);

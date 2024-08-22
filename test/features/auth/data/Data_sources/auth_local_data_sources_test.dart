@@ -1,13 +1,9 @@
-import 'dart:convert';
-
 import 'package:ecommerce_app/features/auth/data/data_sources/local_data_sources.dart';
-import 'package:ecommerce_app/features/auth/data/models/auth_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../../../fixtures/fixture_reader.dart';
 import '../../../product/data/data_sources/product_local_data_source_test.mocks.dart';
 
 @GenerateMocks([SharedPreferences])
@@ -70,13 +66,13 @@ void main() {
     });
   });
 
-  group('clearAuthToken', () {
+  group('deleteAuthToken', () {
     test('should call SharedPreferences to remove the token', () async {
       // Arrange
       when(mockSharedPreferences.remove(any)).thenAnswer((_) async => true);
 
       // Act
-      await dataSource.clearAuthToken();
+      await dataSource.deleteAuthToken();
 
       // Assert
       verify(mockSharedPreferences.remove(CACHED_AUTH_TOKEN));

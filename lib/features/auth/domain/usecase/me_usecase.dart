@@ -3,16 +3,12 @@ import 'package:ecommerce_app/core/error/failure.dart';
 import 'package:ecommerce_app/features/auth/domain/entity/auth_user.dart';
 import 'package:ecommerce_app/features/auth/domain/repository/auth_repository.dart';
 
-// login_use_case.dart
-class LoginUseCase {
+class MeUsecase {
   final AuthRepository repository;
 
-  LoginUseCase(this.repository);
+  MeUsecase(this.repository);
 
-  Future<Either<Failure, String>> call({
-    required String email,
-    required String password,
-  }) {
-    return repository.login(email: email, password: password);
+  Future<Either<Failure, AuthUser>> call({required String token}) {
+    return repository.me(token: token);
   }
 }

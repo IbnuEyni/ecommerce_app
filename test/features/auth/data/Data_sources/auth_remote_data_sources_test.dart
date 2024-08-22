@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 import 'package:mockito/mockito.dart';
 import 'package:mockito/annotations.dart';
 
+import '../../../../fixtures/fixture_reader.dart';
 import '../../../product/data/data_sources/product_remote_data_source_test.mocks.dart';
 
 @GenerateMocks([http.Client])
@@ -27,7 +28,6 @@ void main() {
       id: '123',
       name: tName,
       email: tEmail,
-      token: 'abc123',
     );
 
     test('should return AuthUserModel when the response code is 201 (Created)',
@@ -42,7 +42,6 @@ void main() {
               'id': '123',
               'name': tName,
               'email': tEmail,
-              'token': 'abc123',
             }),
             201,
           ));
@@ -76,35 +75,22 @@ void main() {
   group('login', () {
     final tEmail = 'test@test.com';
     final tPassword = 'password123';
-    final tAuthUserModel = AuthUserModel(
-      id: '123',
-      name: 'John Doe',
-      email: tEmail,
-      token: 'abc123',
-    );
+    final tToken = 'abc123';
 
-    test('should return AuthUserModel when the response code is 200 (OK)',
-        () async {
+    test('should return a token when the response code is 200 (OK)', () async {
       // Arrange
       when(mockHttpClient.post(
         any,
         headers: anyNamed('headers'),
         body: anyNamed('body'),
-      )).thenAnswer((_) async => http.Response(
-            jsonEncode({
-              'id': '123',
-              'name': 'John Doe',
-              'email': tEmail,
-              'token': 'abc123',
-            }),
-            200,
-          ));
+      )).thenAnswer(
+          (_) async => http.Response(json.encode({'token': tToken}), 200));
 
       // Act
       final result = await dataSource.login(email: tEmail, password: tPassword);
 
       // Assert
-      expect(result, equals(tAuthUserModel));
+      expect(result, equals(tToken));
     });
 
     test('should throw a ServerException when the response code is not 200',
@@ -125,21 +111,35 @@ void main() {
     });
   });
 
-  group('logout', () {
+  group('me', () {
     final tToken = 'abc123';
+    final tAuthUserModel = AuthUserModel(
+      id: '123',
+      name: 'John Doe',
+      email: 'test@test.com',
+    );
 
-    test('should perform a POST request with the correct token', () async {
+    test('should return AuthUserModel when the response code is 200 (OK)',
+        () async {
       // Arrange
-      when(mockHttpClient.post(
+      when(mockHttpClient.get(
         any,
         headers: anyNamed('headers'),
-      )).thenAnswer((_) async => http.Response('Logged out', 200));
+      )).thenAnswer((_) async => http.Response(
+            json.encode({
+              'id': '123',
+              'name': 'John Doe',
+              'email': 'test@test.com',
+            }),
+            200,
+          ));
 
       // Act
-      await dataSource.logout(token: tToken);
+      final result = await dataSource.me(token: tToken);
 
       // Assert
-      verify(mockHttpClient.post(
+      expect(result, equals(tAuthUserModel));
+      verify(mockHttpClient.get(
         Uri.parse(
             'https://g5-flutter-learning-path-be.onrender.com/api/v2/users/me'),
         headers: {
@@ -152,13 +152,13 @@ void main() {
     test('should throw a ServerException when the response code is not 200',
         () async {
       // Arrange
-      when(mockHttpClient.post(
+      when(mockHttpClient.get(
         any,
         headers: anyNamed('headers'),
       )).thenAnswer((_) async => http.Response('Unauthorized', 401));
 
       // Act
-      final call = dataSource.logout;
+      final call = dataSource.me;
 
       // Assert
       expect(() => call(token: tToken), throwsA(isA<ServerException>()));

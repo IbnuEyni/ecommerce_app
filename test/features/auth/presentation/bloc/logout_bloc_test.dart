@@ -19,19 +19,16 @@ void main() {
   });
 
   group('LogoutBloc', () {
-    const tToken = 'abc123';
-
     test('initial state should be LogoutInitial', () {
       expect(logoutBloc.state, LogoutInitial());
     });
     blocTest<LogoutBloc, LogoutState>(
       'emits [LogoutLoading, LogoutSuccess] when LogoutRequested is added and use case succeeds',
       build: () {
-        when(mockLogoutUseCase(tToken))
-            .thenAnswer((_) async => const Right(unit));
+        when(mockLogoutUseCase()).thenAnswer((_) async => const Right(unit));
         return logoutBloc;
       },
-      act: (bloc) => bloc.add(const LogoutRequested(token: tToken)),
+      act: (bloc) => bloc.add(const LogoutRequested()),
       expect: () => [
         LogoutLoading(),
         LogoutLoaded(),

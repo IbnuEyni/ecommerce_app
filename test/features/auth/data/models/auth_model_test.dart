@@ -6,7 +6,6 @@ void main() {
     id: '123',
     email: 'test@test.com',
     name: 'John Doe',
-    token: 'abc123',
   );
 
   group('fromJson', () {
@@ -16,7 +15,6 @@ void main() {
         'id': '123',
         'email': 'test@test.com',
         'name': 'John Doe',
-        'token': 'abc123',
       };
 
       // Act
@@ -37,7 +35,6 @@ void main() {
         'id': '123',
         'email': 'test@test.com',
         'name': 'John Doe',
-        'token': 'abc123',
       };
       expect(result, expectedMap);
     });

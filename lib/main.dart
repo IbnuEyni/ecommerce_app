@@ -1,3 +1,10 @@
+import 'package:ecommerce_app/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
+import 'package:ecommerce_app/features/auth/presentation/bloc/logout_bloc/bloc/logout_bloc.dart';
+import 'package:ecommerce_app/features/auth/presentation/bloc/me_bloc/me_bloc.dart';
+import 'package:ecommerce_app/features/auth/presentation/bloc/signup_bloc/signup_bloc.dart';
+import 'package:ecommerce_app/features/auth/presentation/pages/login_page.dart';
+import 'package:ecommerce_app/features/auth/presentation/pages/signup_page.dart';
+import 'package:ecommerce_app/features/auth/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -33,7 +40,7 @@ final _router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return const ListProductsPage();
+        return const SplashScreen();
       },
     ),
     GoRoute(
@@ -66,6 +73,27 @@ final _router = GoRouter(
         return const SearchPage();
       },
     ),
+    GoRoute(
+      name: 'home',
+      path: '/home',
+      builder: (context, state) {
+        return const ListProductsPage();
+      },
+    ),
+    GoRoute(
+      name: 'signin',
+      path: '/signin',
+      builder: (context, state) {
+        return const SignInPage();
+      },
+    ),
+    GoRoute(
+      name: 'signup',
+      path: '/signup',
+      builder: (context, state) {
+        return const SignUpPage();
+      },
+    ),
   ],
 );
 
@@ -81,6 +109,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (_) => sl<CreateBloc>()),
         BlocProvider(create: (_) => sl<UpdateBloc>()),
         BlocProvider(create: (_) => sl<DeleteBloc>()),
+        BlocProvider(create: (_) => sl<LoginBloc>()),
+        BlocProvider(create: (_) => sl<SignupBloc>()),
+        BlocProvider(create: (_) => sl<LogoutBloc>()),
+        BlocProvider(create: (_) => sl<MeBloc>()),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,

@@ -9,12 +9,13 @@ abstract class AuthRepository {
     required String password,
   });
 
-  Future<Either<Failure, AuthUser>> login({
+  Future<Either<Failure, String>> login({
     required String email,
     required String password,
   });
 
-  Future<Either<Failure, void>> logout(
-    String token,
-  );
+  Future<Either<Failure, void>> logout();
+  Future<Either<Failure, AuthUser>> me({
+    required String token,
+  });
 }

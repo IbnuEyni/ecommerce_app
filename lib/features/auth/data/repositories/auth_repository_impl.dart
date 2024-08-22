@@ -24,25 +24,25 @@ class AuthRepositoryImpl implements AuthRepository {
       {required String name,
       required String email,
       required String password}) async {
-    return await _getResponse(() {
+    return await _getAuthUser(() {
       return remoteDataSource.signUp(
           name: name, email: email, password: password);
     });
   }
 
   @override
-  Future<Either<Failure, AuthUser>> login(
+  Future<Either<Failure, String>> login(
       {required String email, required String password}) async {
-    return await _getResponse(() {
+    return await _getToken(() {
       return remoteDataSource.login(email: email, password: password);
     });
   }
 
   @override
-  Future<Either<Failure, Unit>> logout(String token) async {
+  Future<Either<Failure, Unit>> logout() async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSource.logout(token: 'token');
+        await remoteDataSource.logout();
         return const Right(unit);
       } on ServerException {
         return Left(ServerFailure());
@@ -52,17 +52,35 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  Future<Either<Failure, AuthUser>> _getResponse(
+  @override
+  Future<Either<Failure, AuthUser>> me({required String token}) async {
+    return await _getAuthUser(() {
+      return remoteDataSource.me(token: token);
+    });
+  }
+
+  Future<Either<Failure, AuthUser>> _getAuthUser(
       Future<AuthUserModel> Function() getMethod) async {
     if (await networkInfo.isConnected) {
       try {
-        final remoteAuthUser = await getMethod();
-        // Convert the AuthUserModel to AuthUser
-        final authUser = convertAuthUserModelToAuthUser(remoteAuthUser);
+        final authUserModel = await getMethod();
+        final authUser = convertAuthUserModelToAuthUser(authUserModel);
+        return Right(authUserModel);
+      } on ServerException {
+        return Left(ServerFailure());
+      }
+    } else {
+      return Left(NetworkFailure());
+    }
+  }
 
-        // Cache the auth token locally
-        await localDataSource.cacheAuthToken(authUser.token);
-        return Right(authUser);
+  Future<Either<Failure, String>> _getToken(
+      Future<String> Function() getMethod) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final token = await getMethod();
+        await localDataSource.cacheAuthToken(token);
+        return Right(token);
       } on ServerException {
         return Left(ServerFailure());
       }
@@ -77,7 +95,6 @@ AuthUserModel convertAuthUserToAuthUserModel(AuthUser authUser) {
     id: authUser.id,
     name: authUser.name,
     email: authUser.email,
-    token: authUser.token,
   );
 }
 
@@ -86,6 +103,5 @@ AuthUser convertAuthUserModelToAuthUser(AuthUserModel authUserModel) {
     id: authUserModel.id,
     name: authUserModel.name,
     email: authUserModel.email,
-    token: authUserModel.token,
   );
 }

@@ -22,12 +22,17 @@ class ListProductsPage extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Container(
-                        width: 40,
-                        height: 45,
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 207, 206, 206),
-                          borderRadius: BorderRadius.circular(10.0),
+                      InkWell(
+                        onTap: () {
+                          context.push('/signin');
+                        },
+                        child: Container(
+                          width: 40,
+                          height: 45,
+                          decoration: BoxDecoration(
+                            color: const Color.fromARGB(255, 207, 206, 206),
+                            borderRadius: BorderRadius.circular(10.0),
+                          ),
                         ),
                       ),
                       const SizedBox(width: 10),

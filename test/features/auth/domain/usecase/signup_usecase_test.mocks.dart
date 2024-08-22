@@ -76,7 +76,7 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
       ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>> login({
+  _i4.Future<_i2.Either<_i5.Failure, String>> login({
     required String? email,
     required String? password,
   }) =>
@@ -89,8 +89,8 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
             #password: password,
           },
         ),
-        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>>.value(
-            _FakeEither_0<_i5.Failure, _i6.AuthUser>(
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, String>>.value(
+            _FakeEither_0<_i5.Failure, String>(
           this,
           Invocation.method(
             #login,
@@ -101,22 +101,41 @@ class MockAuthRepository extends _i1.Mock implements _i3.AuthRepository {
             },
           ),
         )),
-      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>>);
+      ) as _i4.Future<_i2.Either<_i5.Failure, String>>);
 
   @override
-  _i4.Future<_i2.Either<_i5.Failure, void>> logout(String? token) =>
-      (super.noSuchMethod(
+  _i4.Future<_i2.Either<_i5.Failure, void>> logout() => (super.noSuchMethod(
         Invocation.method(
           #logout,
-          [token],
+          [],
         ),
         returnValue: _i4.Future<_i2.Either<_i5.Failure, void>>.value(
             _FakeEither_0<_i5.Failure, void>(
           this,
           Invocation.method(
             #logout,
-            [token],
+            [],
           ),
         )),
       ) as _i4.Future<_i2.Either<_i5.Failure, void>>);
+
+  @override
+  _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>> me(
+          {required String? token}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #me,
+          [],
+          {#token: token},
+        ),
+        returnValue: _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>>.value(
+            _FakeEither_0<_i5.Failure, _i6.AuthUser>(
+          this,
+          Invocation.method(
+            #me,
+            [],
+            {#token: token},
+          ),
+        )),
+      ) as _i4.Future<_i2.Either<_i5.Failure, _i6.AuthUser>>);
 }

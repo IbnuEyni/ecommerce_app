@@ -13,34 +13,31 @@ void main() {
     mockAuthRepository = MockAuthRepository();
     useCase = LogoutUseCase(mockAuthRepository);
   });
-  final tToken = 'abc123';
 
   test('should return void when logout is successful', () async {
     // Arrange
-    when(mockAuthRepository.logout(tToken))
-        .thenAnswer((_) async => Right(null));
+    when(mockAuthRepository.logout()).thenAnswer((_) async => Right(null));
 
     // Act
-    final result = await useCase(tToken);
+    final result = await useCase();
 
     // Assert
     expect(result, Right(null));
-    verify(mockAuthRepository.logout(tToken));
+    verify(mockAuthRepository.logout());
     verifyNoMoreInteractions(mockAuthRepository);
   });
 
   test('should return Failure when logout fails', () async {
     // Arrange
     final tFailure = CacheFailure();
-    when(mockAuthRepository.logout(tToken))
-        .thenAnswer((_) async => Left(tFailure));
+    when(mockAuthRepository.logout()).thenAnswer((_) async => Left(tFailure));
 
     // Act
-    final result = await useCase(tToken);
+    final result = await useCase();
 
     // Assert
     expect(result, Left(tFailure));
-    verify(mockAuthRepository.logout(tToken));
+    verify(mockAuthRepository.logout());
     verifyNoMoreInteractions(mockAuthRepository);
   });
 }

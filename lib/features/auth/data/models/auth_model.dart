@@ -5,20 +5,20 @@ class AuthUserModel extends AuthUser {
     required String id,
     required String email,
     required String name,
-    required String token,
   }) : super(
           id: id,
           email: email,
           name: name,
-          token: token,
         );
+
+  @override
+  bool get stringify => true;
 
   factory AuthUserModel.fromJson(Map<String, dynamic> json) {
     return AuthUserModel(
       id: json['id'],
       email: json['email'],
       name: json['name'],
-      token: json['token'],
     );
   }
 
@@ -27,7 +27,6 @@ class AuthUserModel extends AuthUser {
       'id': id,
       'email': email,
       'name': name,
-      'token': token,
     };
   }
 }

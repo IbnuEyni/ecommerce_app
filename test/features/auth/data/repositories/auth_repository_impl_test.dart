@@ -37,14 +37,8 @@ void main() {
     id: '123',
     email: tEmail,
     name: tName,
-    token: 'abc123',
   );
-  final tAuthUser = AuthUser(
-    id: '123',
-    email: tEmail,
-    name: tName,
-    token: 'abc123',
-  );
+  final tToken = 'abc123';
 
   group('signUp', () {
     test('should cache auth token and return AuthUser on successful sign up',
@@ -65,8 +59,7 @@ void main() {
       );
 
       // Assert
-      verify(mockLocalDataSource.cacheAuthToken(tAuthUser.token));
-      expect(result, Right(tAuthUser));
+      expect(result, Right(tAuthUserModel));
     });
 
     test('should return ServerFailure when the response code is not 201',
@@ -100,7 +93,7 @@ void main() {
       when(mockRemoteDataSource.login(
         email: tEmail,
         password: tPassword,
-      )).thenAnswer((_) async => tAuthUserModel);
+      )).thenAnswer((_) async => tToken);
 
       // Act
       final result = await repository.login(
@@ -109,8 +102,8 @@ void main() {
       );
 
       // Assert
-      verify(mockLocalDataSource.cacheAuthToken(tAuthUser.token));
-      expect(result, Right(tAuthUser));
+      verify(mockLocalDataSource.cacheAuthToken(tToken));
+      expect(result, Right(tToken));
     });
 
     test('should return ServerFailure when the response code is not 200',
@@ -138,11 +131,11 @@ void main() {
     test('should return Unit when the response code is 200 (OK)', () async {
       // Arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.logout(token: anyNamed('token')))
+      when(mockRemoteDataSource.logout())
           .thenAnswer((_) async => Future.value());
 
       // Act
-      final result = await repository.logout('abc123');
+      final result = await repository.logout();
 
       // Assert
       expect(result, const Right(unit));
@@ -152,13 +145,47 @@ void main() {
         () async {
       // Arrange
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.logout(token: anyNamed('token')))
-          .thenThrow(ServerException());
+      when(mockRemoteDataSource.logout()).thenThrow(ServerException());
 
       // Act
-      final result = await repository.logout('abc123');
+      final result = await repository.logout();
 
       // Assert
+      expect(result, Left(ServerFailure()));
+    });
+  });
+
+  group('me', () {
+    test('should  return AuthUserModel on successful me', () async {
+      // Arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.me(token: tToken))
+          .thenAnswer((_) async => tAuthUserModel);
+
+      // Act
+      final result = await repository.me(
+        token: tToken,
+      );
+
+      // Assert
+      expect(result, Right(tAuthUserModel));
+    });
+
+    test('should return ServerFailure when the response code is not 201',
+        () async {
+      // Arrange
+      when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      when(mockRemoteDataSource.me(
+        token: tToken,
+      )).thenThrow(ServerException());
+
+      // Act
+      final result = await repository.me(
+        token: tToken,
+      );
+
+      // Assert
+      verifyZeroInteractions(mockLocalDataSource);
       expect(result, Left(ServerFailure()));
     });
   });

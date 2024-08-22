@@ -10,7 +10,7 @@ class LogoutBloc extends Bloc<LogoutEvent, LogoutState> {
   LogoutBloc(this.logoutUseCase) : super(LogoutInitial()) {
     on<LogoutRequested>((event, emit) async {
       emit(LogoutLoading());
-      final result = await logoutUseCase(event.token);
+      final result = await logoutUseCase();
 
       result.fold((failure) => emit(LogoutError(message: 'Logout Failed')),
           (_) => emit(LogoutLoaded()));

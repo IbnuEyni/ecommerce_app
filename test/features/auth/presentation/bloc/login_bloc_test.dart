@@ -1,7 +1,6 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/features/auth/domain/entity/auth_user.dart';
 import 'package:ecommerce_app/features/auth/domain/usecase/login_usecase.dart';
 import 'package:ecommerce_app/features/auth/presentation/bloc/login_bloc/login_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -21,8 +20,7 @@ void main() {
   });
 
   group('LoginBloc', () {
-    const tAuthUser = AuthUser(
-        id: '123', name: 'John Doe', email: 'test@test.com', token: 'abc123');
+    const tToken = 'abc123';
     const tEmail = 'test@test.com';
     const tPassword = 'password123';
     test('initial state should be SignUpInitial', () {
@@ -33,14 +31,14 @@ void main() {
       'emits [LoginLoading, LoginLoaded] when LoginRequested is added and use case succeeds',
       build: () {
         when(mockLoginUseCase(email: tEmail, password: tPassword))
-            .thenAnswer((_) async => const Right(tAuthUser));
+            .thenAnswer((_) async => const Right(tToken));
         return loginBloc;
       },
       act: (bloc) =>
           bloc.add(const LoginRequested(email: tEmail, password: tPassword)),
       expect: () => [
         LoginLoading(),
-        const LoginLoaded(user: tAuthUser),
+        const LoginLoaded(token: tToken),
       ],
     );
 

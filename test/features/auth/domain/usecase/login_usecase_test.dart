@@ -18,19 +18,14 @@ void main() {
 
   final tEmail = 'test@test.com';
   final tPassword = 'password123';
-  final tAuthUser = AuthUser(
-    id: '123',
-    email: tEmail,
-    name: 'John Doe',
-    token: 'abc123',
-  );
+  final tToken = 'abc123';
 
   test('should return AuthUser when login is successful', () async {
     // Arrange
     when(mockAuthRepository.login(
       email: anyNamed('email'),
       password: anyNamed('password'),
-    )).thenAnswer((_) async => Right(tAuthUser));
+    )).thenAnswer((_) async => Right(tToken));
 
     // Act
     final result = await useCase(
@@ -39,7 +34,7 @@ void main() {
     );
 
     // Assert
-    expect(result, Right(tAuthUser));
+    expect(result, Right(tToken));
     verify(mockAuthRepository.login(
       email: tEmail,
       password: tPassword,

@@ -26,7 +26,6 @@ void main() {
     id: '123',
     email: tEmail,
     name: tName,
-    token: 'abc123',
   );
 
   test('should return AuthUser when sign-up is successful', () async {

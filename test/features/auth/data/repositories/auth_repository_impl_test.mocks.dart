@@ -6,11 +6,12 @@
 import 'dart:async' as _i4;
 
 import 'package:ecommerce_app/features/auth/data/data_sources/local_data_sources.dart'
-    as _i5;
+    as _i6;
 import 'package:ecommerce_app/features/auth/data/data_sources/remote_data_resources.dart'
     as _i3;
 import 'package:ecommerce_app/features/auth/data/models/auth_model.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:mockito/src/dummies.dart' as _i5;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -75,7 +76,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
       ) as _i4.Future<_i2.AuthUserModel>);
 
   @override
-  _i4.Future<_i2.AuthUserModel> login({
+  _i4.Future<String> login({
     required String? email,
     required String? password,
   }) =>
@@ -88,7 +89,7 @@ class MockAuthRemoteDataSource extends _i1.Mock
             #password: password,
           },
         ),
-        returnValue: _i4.Future<_i2.AuthUserModel>.value(_FakeAuthUserModel_0(
+        returnValue: _i4.Future<String>.value(_i5.dummyValue<String>(
           this,
           Invocation.method(
             #login,
@@ -99,25 +100,42 @@ class MockAuthRemoteDataSource extends _i1.Mock
             },
           ),
         )),
-      ) as _i4.Future<_i2.AuthUserModel>);
+      ) as _i4.Future<String>);
 
   @override
-  _i4.Future<void> logout({required String? token}) => (super.noSuchMethod(
+  _i4.Future<void> logout() => (super.noSuchMethod(
         Invocation.method(
           #logout,
           [],
-          {#token: token},
         ),
         returnValue: _i4.Future<void>.value(),
         returnValueForMissingStub: _i4.Future<void>.value(),
       ) as _i4.Future<void>);
+
+  @override
+  _i4.Future<_i2.AuthUserModel> me({required String? token}) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #me,
+          [],
+          {#token: token},
+        ),
+        returnValue: _i4.Future<_i2.AuthUserModel>.value(_FakeAuthUserModel_0(
+          this,
+          Invocation.method(
+            #me,
+            [],
+            {#token: token},
+          ),
+        )),
+      ) as _i4.Future<_i2.AuthUserModel>);
 }
 
 /// A class which mocks [AuthLocalDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthLocalDataSource extends _i1.Mock
-    implements _i5.AuthLocalDataSource {
+    implements _i6.AuthLocalDataSource {
   MockAuthLocalDataSource() {
     _i1.throwOnMissingStub(this);
   }
@@ -142,9 +160,9 @@ class MockAuthLocalDataSource extends _i1.Mock
       ) as _i4.Future<String?>);
 
   @override
-  _i4.Future<void> clearAuthToken() => (super.noSuchMethod(
+  _i4.Future<void> deleteAuthToken() => (super.noSuchMethod(
         Invocation.method(
-          #clearAuthToken,
+          #deleteAuthToken,
           [],
         ),
         returnValue: _i4.Future<void>.value(),

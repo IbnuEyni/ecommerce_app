@@ -8,10 +8,8 @@ sealed class LogoutEvent extends Equatable {
 }
 
 class LogoutRequested extends LogoutEvent {
-  final String token;
-
-  const LogoutRequested({required this.token});
+  const LogoutRequested();
 
   @override
-  List<Object> get props => [token];
+  List<Object> get props => [];
 }

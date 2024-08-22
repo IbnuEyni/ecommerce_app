@@ -21,8 +21,8 @@ void main() {
   });
 
   group('SignUpBloc', () {
-    const tAuthUser = AuthUser(
-        id: '123', name: 'John Doe', email: 'test@test.com', token: 'abc123');
+    const tAuthUser =
+        AuthUser(id: '123', name: 'John Doe', email: 'test@test.com');
     const tName = 'amir ahme';
     const tEmail = 'test@test.com';
     const tPassword = 'password123';

@@ -7,8 +7,6 @@ import 'dart:async' as _i5;
 
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:ecommerce_app/core/error/failure.dart' as _i6;
-import 'package:ecommerce_app/features/auth/domain/entity/auth_user.dart'
-    as _i7;
 import 'package:ecommerce_app/features/auth/domain/repository/auth_repository.dart'
     as _i2;
 import 'package:ecommerce_app/features/auth/domain/usecase/login_usecase.dart'
@@ -67,7 +65,7 @@ class MockLoginUseCase extends _i1.Mock implements _i4.LoginUseCase {
       ) as _i2.AuthRepository);
 
   @override
-  _i5.Future<_i3.Either<_i6.Failure, _i7.AuthUser>> call({
+  _i5.Future<_i3.Either<_i6.Failure, String>> call({
     required String? email,
     required String? password,
   }) =>
@@ -80,8 +78,8 @@ class MockLoginUseCase extends _i1.Mock implements _i4.LoginUseCase {
             #password: password,
           },
         ),
-        returnValue: _i5.Future<_i3.Either<_i6.Failure, _i7.AuthUser>>.value(
-            _FakeEither_1<_i6.Failure, _i7.AuthUser>(
+        returnValue: _i5.Future<_i3.Either<_i6.Failure, String>>.value(
+            _FakeEither_1<_i6.Failure, String>(
           this,
           Invocation.method(
             #call,
@@ -92,5 +90,5 @@ class MockLoginUseCase extends _i1.Mock implements _i4.LoginUseCase {
             },
           ),
         )),
-      ) as _i5.Future<_i3.Either<_i6.Failure, _i7.AuthUser>>);
+      ) as _i5.Future<_i3.Either<_i6.Failure, String>>);
 }

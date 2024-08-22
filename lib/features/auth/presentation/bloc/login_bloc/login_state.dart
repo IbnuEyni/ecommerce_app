@@ -12,12 +12,12 @@ final class LoginInitial extends LoginState {}
 final class LoginLoading extends LoginState {}
 
 final class LoginLoaded extends LoginState {
-  final AuthUser user;
+  final String token;
 
-  const LoginLoaded({required this.user});
+  const LoginLoaded({required this.token});
 
   @override
-  List<Object> get props => [user];
+  List<Object> get props => [token];
 }
 
 final class LoginError extends LoginState {
