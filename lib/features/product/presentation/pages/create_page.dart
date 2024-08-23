@@ -152,7 +152,7 @@ class _CreatePageState extends State<CreatePage> {
                         content: Text('Product Created'),
                       ),
                     );
-                    context.pop();
+                    context.push('/home');
                   }
                 },
                 builder: (context, state) {

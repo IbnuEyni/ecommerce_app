@@ -185,8 +185,7 @@ class _UpdatePageState extends State<UpdatePage> {
                         content: Text('Product updated successfully!'),
                       ),
                     );
-                    // context.pop();
-                    context.go('/');
+                    context.go('/home');
                   } else if (state is UpdateProductError) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

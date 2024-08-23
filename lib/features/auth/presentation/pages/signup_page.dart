@@ -1,7 +1,6 @@
 import 'package:ecommerce_app/features/auth/presentation/bloc/signup_bloc/signup_bloc.dart';
 import 'package:ecommerce_app/features/auth/presentation/widgets/custom_password_tex_field_widget.dart';
 import 'package:ecommerce_app/features/auth/presentation/widgets/custom_text_field_widget.dart';
-import 'package:ecommerce_app/features/product/presentation/widgets/textfield_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';

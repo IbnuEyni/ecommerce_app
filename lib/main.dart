@@ -24,13 +24,12 @@ import 'injection_container.dart' as di;
 import 'injection_container.dart';
 
 void main() async {
-  WidgetsFlutterBinding
-      .ensureInitialized(); // Ensure that Flutter's binding is initialized
+  WidgetsFlutterBinding.ensureInitialized();
   Bloc.observer = SimpleBlocObserver();
 
-  await di.init(); // Initializes dependency injection
+  await di.init();
 
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 // GoRouter configuration
@@ -76,7 +75,7 @@ final _router = GoRouter(
     GoRoute(
       name: 'home',
       path: '/home',
-      builder: (context, state) {
+      builder: (BuildContext context, GoRouterState state) {
         return const ListProductsPage();
       },
     ),

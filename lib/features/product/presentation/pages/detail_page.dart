@@ -20,7 +20,7 @@ class _DetailPageState extends State<DetailPage> {
   void _deleteItem(BuildContext context) {
     BlocProvider.of<DeleteBloc>(context).add(DeleteProductEvent(id: widget.id));
 
-    context.pop();
+    context.push('/home');
   }
 
   @override

@@ -2,8 +2,9 @@ import 'dart:convert';
 
 import 'package:ecommerce_app/core/constants/constants.dart';
 import 'package:ecommerce_app/core/error/exception.dart';
+import 'package:ecommerce_app/core/network/custom_client.dart';
 import 'package:ecommerce_app/features/auth/data/models/auth_model.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/foundation.dart';
 
 abstract class AuthRemoteDataSource {
   Future<AuthUserModel> signUp({
@@ -11,30 +12,34 @@ abstract class AuthRemoteDataSource {
     required String email,
     required String password,
   });
+
   Future<String> login({required String email, required String password});
   Future<void> logout();
   Future<AuthUserModel> me({required String token});
 }
 
 class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
-  final http.Client client;
+  final HttpClient client;
 
   AuthRemoteDataSourceImpl({required this.client});
+
   @override
   Future<String> login(
       {required String email, required String password}) async {
     final response = await client.post(
-      Uri.parse('${Urls.authBaseUrl}/login'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode({
+      '${Urls.authBaseUrl}/login',
+      {
         'email': email,
         'password': password,
-      }),
+      },
     );
 
-    if (response.statusCode == 200) {
+    debugPrint("API response: ${response.body}");
+
+    if (response.statusCode == 201) {
       final jsonResponse = json.decode(response.body);
-      return jsonResponse['token'];
+      debugPrint("\n\n\n\n\n\n\n\n JSON response: $jsonResponse");
+      return jsonResponse['data']['access_token'];
     } else {
       throw ServerException();
     }
@@ -43,8 +48,8 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   @override
   Future<void> logout() async {
     final response = await client.post(
-      Uri.parse('${Urls.authBaseUrl}/logout'),
-      headers: {'Content-Type': 'application/json'},
+      '${Urls.authBaseUrl}/logout',
+      {},
     );
 
     if (response.statusCode != 200) {
@@ -53,43 +58,40 @@ class AuthRemoteDataSourceImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<AuthUserModel> signUp(
-      {required String name,
-      required String email,
-      required String password}) async {
-    final response =
-        await client.post(Uri.parse('${Urls.authBaseUrl}/register'),
-            headers: {'Content-Type': 'application/json'},
-            body: json.encode({
-              'name': name,
-              'email': email,
-              'password': password,
-            }));
+  Future<AuthUserModel> signUp({
+    required String name,
+    required String email,
+    required String password,
+  }) async {
+    final response = await client.post(
+      '${Urls.authBaseUrl}/register',
+      {
+        'name': name,
+        'email': email,
+        'password': password,
+      },
+    );
+    debugPrint("\n\n\n\n ${response.body}");
 
     if (response.statusCode == 201) {
       final jsonResponse = json.decode(response.body);
-      return AuthUserModel.fromJson(jsonResponse);
+      debugPrint("\n\n\n\nJSON response: $jsonResponse");
+      return AuthUserModel.fromJson(jsonResponse['data']);
     } else {
       throw ServerException();
     }
   }
 
   @override
-  Future<AuthUserModel> me({
-    required String token,
-  }) async {
+  Future<AuthUserModel> me({required String token}) async {
+    client.authToken = token;
     final response = await client.get(
-      Uri.parse(
-          'https://g5-flutter-learning-path-be.onrender.com/api/v2/users/me'),
-      headers: {
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      },
+      '${Urls.authBaseUrl}/users/me',
     );
 
     if (response.statusCode == 200) {
       final jsonResponse = json.decode(response.body);
-      return AuthUserModel.fromJson(jsonResponse);
+      return AuthUserModel.fromJson(jsonResponse['data']);
     } else {
       throw ServerException();
     }

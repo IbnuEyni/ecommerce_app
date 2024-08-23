@@ -1,4 +1,3 @@
-import 'package:ecommerce_app/features/auth/presentation/pages/signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -16,8 +15,7 @@ class SplashScreen extends StatelessWidget {
             height: double.infinity,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(
-                    'images/splash.jpg'), // Replace with your image asset
+                image: AssetImage('images/splash.jpg'),
                 fit: BoxFit.cover,
               ),
             ),
@@ -91,13 +89,13 @@ class SplashScreen extends StatelessWidget {
           ),
 
           // Text under the box
-          Positioned(
+          const Positioned(
             top: 426,
             left: 39,
-            child: Container(
+            child: SizedBox(
               width: 331,
               height: 38,
-              child: const Center(
+              child: Center(
                 child: Text(
                   'ECOMMERCE APP',
                   style: TextStyle(

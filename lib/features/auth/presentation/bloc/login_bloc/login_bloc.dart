@@ -1,7 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce_app/core/error/failure.dart';
-import 'package:ecommerce_app/features/auth/domain/entity/auth_user.dart';
 import 'package:ecommerce_app/features/auth/domain/usecase/login_usecase.dart';
 import 'package:equatable/equatable.dart';
 

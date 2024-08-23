@@ -79,7 +79,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
       'description': description,
       'price': price.toString(),
     });
-    debugPrint('================================================${imageUrl}');
+    debugPrint('================================================$imageUrl');
     if (imageUrl.isNotEmpty) {
       String imageType = ImageProvider(imageUrl);
       request.files.add(await http.MultipartFile.fromPath('image', imageUrl,
@@ -87,10 +87,12 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
     }
 
     final response = await request.send();
+    debugPrint("\n\n\n\n $response");
 
     if (response.statusCode == 201) {
       final responseBody = await response.stream.bytesToString();
-      return ProductModel.fromJson(json.decode(responseBody));
+      debugPrint("\n\n\n $responseBody");
+      return ProductModel.fromJson(json.decode(responseBody)['data']);
     } else {
       throw ServerException();
     }
@@ -133,7 +135,7 @@ class ProductRemoteDataSourceImpl implements ProductRemoteDataSource {
           'price': price,
         }));
     if (response.statusCode == 200) {
-      return ProductModel.fromJson(json.decode(response.body));
+      return ProductModel.fromJson(json.decode(response.body)['data']);
     } else {
       throw ServerException();
     }

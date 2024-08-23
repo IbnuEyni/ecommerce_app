@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/core/network/custom_client.dart';
 import 'package:ecommerce_app/features/auth/data/data_sources/local_data_sources.dart';
 import 'package:ecommerce_app/features/auth/data/data_sources/remote_data_resources.dart';
 import 'package:ecommerce_app/features/auth/data/repositories/auth_repository_impl.dart';
@@ -11,9 +12,10 @@ import 'package:ecommerce_app/features/auth/presentation/bloc/logout_bloc/bloc/l
 import 'package:ecommerce_app/features/auth/presentation/bloc/me_bloc/me_bloc.dart';
 import 'package:ecommerce_app/features/auth/presentation/bloc/signup_bloc/signup_bloc.dart';
 import 'package:get_it/get_it.dart';
-import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import 'core/network/network_info.dart';
 import 'core/util/input_converter.dart';
@@ -84,14 +86,18 @@ Future<void> init() async {
       () => ProductLocalDataSourceImpl(sharedPreferences: sl()));
   sl.registerLazySingleton<AuthLocalDataSource>(
       () => AuthLocalDataSourceImpl(sharedPreferences: sl()));
+
   //! Core
   sl.registerLazySingleton<InputConverter>(() => InputConverter());
   sl.registerLazySingleton<NetworkInfo>(
       () => NetworkinfoImpl(connectionChecker: sl()));
+  sl.registerLazySingleton<HttpClient>(() => HttpClient(
+      multipartRequestFactory: multipartRequestFactory, client: sl()));
+  sl.registerLazySingleton<Client>(() => Client());
 
   //! External
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
-  sl.registerLazySingleton(() => http.Client());
+  sl.registerLazySingleton(() => http.Client);
   sl.registerLazySingleton(() => InternetConnectionChecker());
 }

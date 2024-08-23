@@ -64,7 +64,7 @@ class AuthRepositoryImpl implements AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final authUserModel = await getMethod();
-        final authUser = convertAuthUserModelToAuthUser(authUserModel);
+        // final authUser = convertAuthUserModelToAuthUser(authUserModel);
         return Right(authUserModel);
       } on ServerException {
         return Left(ServerFailure());

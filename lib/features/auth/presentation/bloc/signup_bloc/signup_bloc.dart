@@ -18,6 +18,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
         email: event.email,
         password: event.password,
       );
+      print("\n\n\n\n\n\n\n\n test test" +
+          event.name.toString() +
+          event.email.toString() +
+          event.password.toString());
 
       result.fold(
         (failure) => emit(SignupError(message: _mapFailureToMessage(failure))),
